@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Meme Equation: Simulating Virality in the Age of Algorithms - Sharanya N</title>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>The Meme Equation: Simulating Virality in the Age of Algorithms — Sharanya N</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
         :root {
-            --bg-body: #050816;
+            --bg-body: #0b0f19;
             --paper-bg: #ffffff;
-            --paper-text: #1f2328;
-            --paper-muted: #57606a;
-            --accent: #0066cc;
-            --border: #d0d7de;
+            --paper-text: #1e293b;
+            --paper-muted: #475569;
+            --accent: #0284c7;
+            --border: #e2e8f0;
         }
         * {
             box-sizing: border-box;
@@ -24,8 +26,8 @@
             font-family: 'Crimson Pro', Georgia, serif;
             background: var(--bg-body);
             color: var(--paper-text);
-            line-height: 1.65;
-            padding: 30px 15px 60px;
+            line-height: 1.7;
+            padding: 32px 16px 64px;
         }
         .header-bar {
             max-width: 860px;
@@ -33,12 +35,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-family: 'Inter', sans-serif;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
         .back-btn, .print-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #f8fafc;
+            padding: 10px 18px;
             border-radius: 8px;
             text-decoration: none;
             font-size: 14px;
@@ -46,23 +50,23 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
             cursor: pointer;
         }
         .back-btn:hover, .print-btn:hover {
-            background: #00e5ff;
-            color: #000;
-            border-color: #00e5ff;
+            background: #38bdf8;
+            color: #0b0f19;
+            border-color: #38bdf8;
         }
         .paper-container {
             max-width: 860px;
             margin: 0 auto;
             background: var(--paper-bg);
-            padding: 60px 75px;
-            border-radius: 8px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-            font-size: 17px;
+            padding: 56px 68px;
+            border-radius: 10px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+            font-size: 18px;
         }
         h1.title {
             font-size: 32px;
@@ -70,7 +74,7 @@
             font-weight: 700;
             margin-bottom: 20px;
             line-height: 1.25;
-            color: #111;
+            color: #0f172a;
         }
         .authors {
             text-align: center;
@@ -80,57 +84,60 @@
             margin-bottom: 30px;
         }
         .authors strong {
-            font-size: 16px;
-            color: #111;
+            font-size: 15px;
+            color: #0f172a;
             display: block;
             margin-bottom: 4px;
         }
         .authors .emails {
-            font-family: monospace;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-size: 13px;
             margin-top: 4px;
+            word-break: break-word;
         }
         .authors .dept {
             margin-top: 6px;
             font-style: italic;
         }
         .badge {
-            display: inline-block;
-            background: #e6f6ff;
-            color: #0066cc;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #e0f2fe;
+            color: #0369a1;
             font-family: 'Inter', sans-serif;
             font-size: 12px;
             font-weight: 600;
-            padding: 4px 14px;
-            border-radius: 20px;
-            margin-bottom: 25px;
-            text-align: center;
+            padding: 5px 14px;
+            border-radius: 999px;
+            margin-bottom: 22px;
         }
         .badge-wrapper {
             text-align: center;
         }
         .abstract-box {
-            background: #f6f8fa;
+            background: #f8fafc;
             border-left: 4px solid var(--accent);
             padding: 20px 24px;
-            margin-bottom: 35px;
+            margin-bottom: 32px;
             border-radius: 0 8px 8px 0;
         }
-        .abstract-box h3 {
+        .abstract-box h2 {
             font-family: 'Inter', sans-serif;
-            font-size: 15px;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 8px;
-            color: #111;
+            color: #0f172a;
         }
         .abstract-box p {
             font-size: 16px;
-            color: #333;
-            text-align: justify;
+            color: #334155;
+            text-align: left;
+            margin-bottom: 0;
         }
         .keywords {
-            margin-top: 10px;
+            margin-top: 12px;
             font-family: 'Inter', sans-serif;
             font-size: 13px;
             color: var(--paper-muted);
@@ -139,55 +146,68 @@
             font-size: 22px;
             font-weight: 700;
             margin: 30px 0 14px;
-            color: #111;
+            color: #0f172a;
             border-bottom: 1px solid var(--border);
             padding-bottom: 6px;
         }
         p {
             margin-bottom: 16px;
-            text-align: justify;
+            text-align: left;
+        }
+        var, .math-inline {
+            font-family: 'Times New Roman', Times, Georgia, serif;
+            font-style: italic;
+            font-weight: 500;
+            color: #0f172a;
         }
         .equation-box {
             background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 16px 24px;
+            padding: 18px 24px;
             margin: 20px 0;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 18px;
-            font-style: italic;
+            font-family: 'Times New Roman', Times, Georgia, serif;
+            font-size: 19px;
+            color: #0f172a;
         }
-        .equation-box div {
-            margin: 6px 0;
+        .equation-row {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            margin: 24px 0 10px;
         }
         table.sim-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 25px 0;
             font-family: 'Inter', sans-serif;
             font-size: 14px;
+            min-width: 520px;
         }
         table.sim-table th, table.sim-table td {
             border: 1px solid var(--border);
-            padding: 12px 14px;
+            padding: 11px 14px;
             text-align: center;
         }
         table.sim-table th {
-            background: #f3f4f6;
+            background: #f1f5f9;
             font-weight: 600;
-            color: #111;
+            color: #0f172a;
         }
         .table-caption {
             font-family: 'Inter', sans-serif;
             font-size: 13px;
             color: var(--paper-muted);
             text-align: center;
-            margin-top: -15px;
-            margin-bottom: 25px;
+            margin-bottom: 24px;
             font-style: italic;
         }
         ul.paper-list {
-            margin: 14px 0 20px 24px;
+            margin: 12px 0 20px 24px;
         }
         ul.paper-list li {
             margin-bottom: 10px;
@@ -199,7 +219,7 @@
         }
         ol.ref-list li {
             margin-bottom: 8px;
-            color: #444;
+            color: #334155;
         }
         @media print {
             body {
@@ -217,11 +237,15 @@
         }
         @media (max-width: 768px) {
             .paper-container {
-                padding: 30px 20px;
+                padding: 28px 20px;
                 font-size: 16px;
             }
             h1.title {
                 font-size: 24px;
+            }
+            .equation-box {
+                padding: 14px 16px;
+                font-size: 17px;
             }
         }
     </style>
@@ -229,13 +253,13 @@
 <body>
 
 <div class="header-bar">
-    <a href="../../index.html#research" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Portfolio</a>
-    <button onclick="window.print()" class="print-btn"><i class="fa-solid fa-print"></i> Print / Save as PDF</button>
+    <a href="../../index.html#research" class="back-btn"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Portfolio</a>
+    <button type="button" onclick="window.print()" class="print-btn"><i class="fa-solid fa-print" aria-hidden="true"></i> Print / Save as PDF</button>
 </div>
 
-<div class="paper-container">
+<main class="paper-container">
     <div class="badge-wrapper">
-        <span class="badge"><i class="fa-solid fa-award"></i> Presented at National-Level Conference</span>
+        <span class="badge"><i class="fa-solid fa-award" aria-hidden="true"></i> Presented at National-Level Conference</span>
     </div>
 
     <h1 class="title">The Meme Equation: Simulating Virality in the Age of Algorithms</h1>
@@ -246,117 +270,124 @@
         <div class="dept">Department of Science and Humanities, Sri Sairam College of Engineering, Bangalore</div>
     </div>
 
-    <div class="abstract-box">
-        <h3>Abstract</h3>
-        <p>In today's hyperconnected world, memes spread like wildfire. In this situation, what if we could predict which ones go viral? This study takes a playful yet smart approach by applying a model used to track disease outbreaks—the <strong>SIR (Susceptible-Infected-Recovered) model</strong>—and applying it to how internet memes spread. We treat social media users like nodes in a network, where "catching" a meme is like catching a cold: you see it, share it, and eventually get bored of it. By adjusting factors like how likely someone is to share a meme (&beta;) or how quickly they lose interest (&gamma;), we simulate how memes rise, go viral, and die down. Our findings help explain why some memes explode across platforms while others vanish without a trace, offering fresh insights into the digital heartbeat of internet culture.</p>
+    <section class="abstract-box" aria-labelledby="abstract-heading">
+        <h2 id="abstract-heading">Abstract</h2>
+        <p>In today's hyperconnected world, memes spread rapidly across digital communities. This study applies a mathematical model traditionally used to track infectious disease outbreaks—the <strong>SIR (Susceptible–Infected–Recovered) model</strong>—to analyze how internet memes propagate. We represent social media users as nodes in a network where encountering and sharing a meme parallels infection dynamics: users are exposed, actively share the content, and eventually lose interest. By varying the transmission rate (<var>&beta;</var>) and the attention decay rate (<var>&gamma;</var>), we simulate how memes rise, reach peak virality, and subside across algorithmic feeds.</p>
         <div class="keywords"><strong>Keywords:</strong> Meme Virality, SIR Model, Social Networks, Information Diffusion, Mathematical Modeling</div>
-    </div>
+    </section>
 
     <h2 class="section-heading">1. Introduction</h2>
-    <p>Several studies have examined information diffusion in social networks. Early works used epidemiological models to detect the spread of rumors, news, and memes. Recent studies show agent-based models, network theory, and even game theory to predict information flow. However, few have applied these methods specifically to memes, making this area ripe for exploration.</p>
+    <p>Several studies have examined information diffusion in social networks. Early works used epidemiological models to analyze the spread of rumors, news, and cultural artifacts. More recent research incorporates agent-based models, network topology, and game theory to characterize online information flow. Applying compartmental differential equations specifically to short-lifecycle internet memes provides a clear framework for studying attention saturation and algorithmic amplification.</p>
 
     <h2 class="section-heading">2. Literature Review</h2>
-    <p>Early works leveraged epidemiological models to simulate the spread of rumors, news, and memes. Leskovec et al. (2007) discussed the dynamics of viral marketing, while Daley and Kendall (1964) compared rumor spreading with epidemic theory. Weng et al. (2013) explored virality prediction and community structures on platforms like Twitter.</p>
-    <p>However, most models focus on general information spread and neglect the distinctive properties of memes, such as humor, relatability, or format. Meme virality often depends on spontaneous user behavior and context, making it ideal for theoretical modeling using parameters like user influence and attention decay.</p>
+    <p>Early foundational work leveraged epidemiological models to simulate rumor and information spreading. Daley and Kendall (1964) compared rumor propagation with epidemic dynamics, while Leskovec et al. (2007) analyzed cascading behavior in viral marketing. Weng et al. (2013) examined virality prediction and community structure on microblogging platforms.</p>
+    <p>Unlike general news diffusion, meme virality depends heavily on rapid relatability, format remixing, and steep attention decay, making compartmental modeling with explicit transmission and recovery parameters particularly instructive.</p>
 
     <h2 class="section-heading">3. Methodology</h2>
-    <p>We use the <strong>SIR (Susceptible-Infected-Recovered)</strong> model to detect meme virality. Users in the network are categorized as:</p>
+    <p>We apply the <strong>SIR (Susceptible–Infected–Recovered)</strong> compartmental model to represent meme diffusion across a population of size <var>N</var>:</p>
     <ul class="paper-list">
-        <li><strong>&rarr; Susceptible (S):</strong> Users who haven't seen the meme yet.</li>
-        <li><strong>&rarr; Infected (I):</strong> Users who have seen and are actively sharing the meme.</li>
-        <li><strong>&rarr; Recovered (R):</strong> Users who have seen the meme but lost interest and stopped sharing.</li>
+        <li><strong>Susceptible (<var>S</var>):</strong> Users who have not yet encountered the meme.</li>
+        <li><strong>Infected (<var>I</var>):</strong> Users who have seen and are actively sharing or engaging with the meme.</li>
+        <li><strong>Recovered (<var>R</var>):</strong> Users who have seen the meme, lost interest, and stopped sharing.</li>
     </ul>
 
-    <p>Let:</p>
+    <p>Model variables and parameters:</p>
     <ul class="paper-list">
-        <li>$S(t), I(t), R(t)$ be the number of users in each state at time $t$</li>
-        <li>$N$ be the total number of users $(S + I + R)$</li>
-        <li>$\beta$ be the rate at which users share the meme (Transmission Rate)</li>
-        <li>$\gamma$ be the rate at which users lose interest (Decay / Recovery Rate)</li>
+        <li><span class="math-inline"><var>S</var>(<var>t</var>), <var>I</var>(<var>t</var>), <var>R</var>(<var>t</var>)</span> denote the number of users in each compartment at time <var>t</var>.</li>
+        <li><var>N</var> denotes the total network population (<span class="math-inline"><var>N</var> = <var>S</var> + <var>I</var> + <var>R</var></span>).</li>
+        <li><var>&beta;</var> denotes the effective sharing / transmission rate.</li>
+        <li><var>&gamma;</var> denotes the attention decay / recovery rate.</li>
     </ul>
 
-    <div class="equation-box">
-        <div><strong>dS/dt</strong> = - &beta; &middot; S &middot; I / N</div>
-        <div><strong>dI/dt</strong> = &beta; &middot; S &middot; I / N - &gamma; &middot; I</div>
-        <div><strong>dR/dt</strong> = &gamma; &middot; I</div>
+    <div class="equation-box" role="math" aria-label="SIR differential equations">
+        <div class="equation-row"><strong>d<var>S</var>/d<var>t</var></strong> = &minus; <var>&beta;</var> &middot; (<var>S</var> &middot; <var>I</var>) / <var>N</var></div>
+        <div class="equation-row"><strong>d<var>I</var>/d<var>t</var></strong> = <var>&beta;</var> &middot; (<var>S</var> &middot; <var>I</var>) / <var>N</var> &minus; <var>&gamma;</var> &middot; <var>I</var></div>
+        <div class="equation-row"><strong>d<var>R</var>/d<var>t</var></strong> = <var>&gamma;</var> &middot; <var>I</var></div>
     </div>
-    <p>These differential equations are solved numerically to observe meme behavior under different parameter settings.</p>
+    <p>These coupled ordinary differential equations are integrated numerically to evaluate infection peaks and lifecycle duration across different parameter regimes.</p>
 
     <h2 class="section-heading">4. Simulation and Results</h2>
-    <p>Consider a simulation with an online community of $N = 10,000$ users. At the start ($t = 0$), $I_0 = 10$ seed adopters encounter the meme, leaving $S_0 = 9,990$ susceptible users and $R_0 = 0$ recovered users. When $\beta = 0.3$ and $\gamma = 0.1$, the infected curve reaches a peak virality before attention decay transitions the population to recovery.</p>
+    <p>Consider a simulated online community of <span class="math-inline"><var>N</var> = 10,000</span> users. At <span class="math-inline"><var>t</var> = 0</span>, <span class="math-inline"><var>I</var><sub>0</sub> = 10</span> initial seed adopters share the meme, leaving <span class="math-inline"><var>S</var><sub>0</sub> = 9,990</span> susceptible users and <span class="math-inline"><var>R</var><sub>0</sub> = 0</span> recovered users. When <span class="math-inline"><var>&beta;</var> = 0.3</span> and <span class="math-inline"><var>&gamma;</var> = 0.1</span> (basic reproduction ratio <span class="math-inline"><var>R</var><sub>0</sub> = <var>&beta;</var>/<var>&gamma;</var> = 3.0</span>), active sharing rises to a clear viral peak before attention saturation transitions the population into recovery.</p>
 
-    <table class="sim-table">
-        <thead>
-            <tr>
-                <th>Scenario</th>
-                <th>&beta; (Share Rate)</th>
-                <th>&gamma; (Decay Rate)</th>
-                <th>Peak Infected (%)</th>
-                <th>Time to Peak (days)</th>
-                <th>Spread Behavior</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>0.6</td>
-                <td>0.1</td>
-                <td>85%</td>
-                <td>5</td>
-                <td>Rapid, wide viral explosion</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>0.1</td>
-                <td>0.5</td>
-                <td>12%</td>
-                <td>2</td>
-                <td>Fails to spread, dies fast</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>0.3</td>
-                <td>0.3</td>
-                <td>47%</td>
-                <td>7</td>
-                <td>Moderate, bell-shaped curve</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="table-caption">Table I. Summary of SIR simulation outcomes under varying &beta; and &gamma; values</div>
+    <div class="table-wrap">
+        <table class="sim-table">
+            <thead>
+                <tr>
+                    <th scope="col">Scenario</th>
+                    <th scope="col"><var>&beta;</var> (Share Rate)</th>
+                    <th scope="col"><var>&gamma;</var> (Decay Rate)</th>
+                    <th scope="col">Peak Infected (%)</th>
+                    <th scope="col">Time to Peak (days)</th>
+                    <th scope="col">Observed Spread Behavior</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>0.6</td>
+                    <td>0.1</td>
+                    <td>85%</td>
+                    <td>5</td>
+                    <td>Rapid, wide viral cascade</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>0.1</td>
+                    <td>0.5</td>
+                    <td>12%</td>
+                    <td>2</td>
+                    <td>Sub-critical spread, rapid fade</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>0.3</td>
+                    <td>0.3</td>
+                    <td>47%</td>
+                    <td>7</td>
+                    <td>Moderate bell-shaped adoption curve</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-caption">Table I. Summary of SIR simulation outcomes under varying <var>&beta;</var> and <var>&gamma;</var> values</div>
 
-    <h2 class="section-heading">5. Discussion: What Makes Memes Go Viral?</h2>
-    <p>Our model demonstrates that meme virality fundamentally hinges on the ratio between sharing enthusiasm ($\beta$) and cognitive saturation decay ($\gamma$). However, real-world social platforms introduce unique non-linear factors:</p>
+    <h2 class="section-heading">5. Discussion: Factors Driving Virality</h2>
+    <p>Our simulation confirms that virality depends on the ratio between transmission rate (<var>&beta;</var>) and attention decay (<var>&gamma;</var>). In real-world social platforms, additional structural factors shape these rates:</p>
     <ul class="paper-list">
-        <li><strong>Recommendation Algorithms as Multipliers:</strong> Platform feed curation (TikTok FYP, Instagram Reels, X For You) acts as an automated amplifier, boosting engagement clusters non-homogeneously.</li>
-        <li><strong>Influencer Super-Nodes:</strong> Highly connected network hubs drastically reduce time-to-peak by exposing massive susceptible sub-graphs simultaneously.</li>
-        <li><strong>Contextual & Temporal Resonance:</strong> Content resonance varies with geopolitical events, culture, and diurnal rhythms ("Monday struggle" vs "Friday night").</li>
+        <li><strong>Algorithmic Feed Amplification:</strong> Recommendation engines (short-form video feeds and ranked timelines) dynamically increase effective <var>&beta;</var> for high-engagement content clusters.</li>
+        <li><strong>High-Degree Network Hubs:</strong> Creators and community hubs expose large susceptible sub-networks simultaneously, compressing time-to-peak.</li>
+        <li><strong>Contextual &amp; Temporal Relevance:</strong> Topical alignment with cultural events temporarily elevates sharing propensity.</li>
     </ul>
 
-    <h2 class="section-heading">6. Ideas to Make the Model More Real</h2>
+    <h2 class="section-heading">6. Extensions for Future Work</h2>
     <ul class="paper-list">
-        <li><strong>Bring Back the Zombies (SIRS Style):</strong> Incorporate cyclic reinfection terms for recycled meme formats and nostalgic trends.</li>
-        <li><strong>Sentiment & Emotional Valence:</strong> Integrate sentiment scores to modulate $\beta$ based on humor, controversy, or emotional intensity.</li>
-        <li><strong>Platform-Specific Algorithmic Weighting:</strong> Parameterize graph topologies according to platform dissemination mechanisms (retweets vs algorithmic push).</li>
-        <li><strong>Dynamic Time-Decay Functions:</strong> Model decay $\gamma(t)$ as an increasing function of time as novelty wears off.</li>
+        <li><strong>SIRS Cyclic Re-Adoption:</strong> Allowing recovered nodes to return to the susceptible pool to model recurring meme templates.</li>
+        <li><strong>Sentiment-Weighted Transmission:</strong> Conditioning <var>&beta;</var> on emotional valence and format adaptability.</li>
+        <li><strong>Time-Varying Decay <span class="math-inline"><var>&gamma;</var>(<var>t</var>)</span>:</strong> Modeling accelerating fatigue as platform saturation increases.</li>
     </ul>
 
     <h2 class="section-heading">7. Conclusion</h2>
-    <p>This study demonstrates that epidemiological modeling provides robust mathematical scaffolding for simulating information diffusion and meme virality across modern algorithmic social networks. By treating digital users as interconnected nodes and evaluating transmission versus decay dynamics, creators, sociologists, and data analysts can quantify the hidden mechanisms driving the digital heartbeat of internet culture.</p>
+    <p>Epidemiological compartmental modeling offers a clear quantitative foundation for understanding information diffusion and meme lifecycles in algorithmic networks. Evaluating the interplay between sharing velocity (<var>&beta;</var>) and attention decay (<var>&gamma;</var>) helps explain why certain digital artifacts achieve widespread adoption while others dissipate rapidly.</p>
 
     <h2 class="section-heading">References</h2>
     <ol class="ref-list">
-        <li>D. Kempe et al., "Maximizing the spread of influence through a social network," <em>Proc. ACM SIGKDD</em>, 2003.</li>
-        <li>R. Pastor-Satorras and A. Vespignani, "Epidemic dynamics in complex networks," <em>Phys. Rev. E</em>, 2001.</li>
+        <li>D. Kempe, J. Kleinberg, and &Eacute;. Tardos, "Maximizing the spread of influence through a social network," <em>Proc. ACM SIGKDD</em>, 2003.</li>
+        <li>R. Pastor-Satorras and A. Vespignani, "Epidemic dynamics in scale-free networks," <em>Phys. Rev. Lett.</em>, 2001.</li>
         <li>M. J. Keeling and K. T. D. Eames, "Networks and epidemic models," <em>J. R. Soc. Interface</em>, 2005.</li>
-        <li>S. Goel et al., "The structural virality of online diffusion," <em>Manage. Sci.</em>, 2016.</li>
-        <li>C. Budak et al., "Limiting misinformation in social networks," <em>Proc. WWW Conf.</em>, 2011.</li>
-        <li>A. R. Rezaei and A. Farahani, "Sentiment-based meme modeling," <em>J. Inf. Sci.</em>, 2023.</li>
-        <li>Wang et al., "Epidemic spreading in real networks," <em>Proc. IEEE SRDS</em>, 2003.</li>
-        <li>T. L. Griffiths and M. Steyvers, "Predictions from a theory of memory," <em>Proc. NIPS</em>, 2005.</li>
-        <li>A. Barab&aacute;si and R. Albert, "Emergence of scaling in networks," <em>Science</em>, 1999.</li>
+        <li>S. Goel, A. Anderson, J. Hofman, and D. J. Watts, "The structural virality of online diffusion," <em>Manage. Sci.</em>, 2016.</li>
+        <li>L. Weng, F. Menczer, and Y.-Y. Ahn, "Virality prediction and community structure in social networks," <em>Sci. Rep.</em>, 2013.</li>
+        <li>J. Leskovec, L. A. Adamic, and B. A. Huberman, "The dynamics of viral marketing," <em>ACM Trans. Web</em>, 2007.</li>
+        <li>D. J. Daley and D. G. Kendall, "Epidemics and rumours," <em>Nature</em>, 1964.</li>
+        <li>A.-L. Barab&aacute;si and R. Albert, "Emergence of scaling in random networks," <em>Science</em>, 1999.</li>
     </ol>
-</div>
+</main>
 
+<script>
+  if (new URLSearchParams(window.location.search).get('print') === '1') {
+    window.addEventListener('load', function () {
+      setTimeout(function () { window.print(); }, 350);
+    });
+  }
+</script>
 </body>
 </html>

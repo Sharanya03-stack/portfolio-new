@@ -1,38 +1,58 @@
 /* ==========================================================
    PORTFOLIO MAIN ENGINE — SHARANYA N
-   High-performance scrolling, contact dispatch & interactions
+   Accessible navigation, smooth scrolling, and contact form handling
 ========================================================== */
 
 "use strict";
 
 /*==========================================================
-  LENIS SMOOTH SCROLL (60fps Accelerated Physics)
+  LENIS SMOOTH SCROLL (Respects prefers-reduced-motion)
 ==========================================================*/
 
 let lenisInstance = null;
+window.lenisInstance = null;
+
+function closeMobileMenu() {
+  const nav = document.getElementById("primary-navigation") || document.querySelector(".nav-links");
+  const menu = document.getElementById("menu-btn");
+  if (nav && nav.classList.contains("show")) {
+    nav.classList.remove("show");
+  }
+  if (menu) {
+    menu.classList.remove("open");
+    menu.setAttribute("aria-expanded", "false");
+    menu.setAttribute("aria-label", "Open navigation menu");
+  }
+}
 
 function initLenis() {
-  if (typeof Lenis === "undefined") return;
+  const prefersReducedMotion =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Destroy previous instance if any
-  if (lenisInstance) {
-    lenisInstance.destroy();
-  }
+  if (typeof Lenis !== "undefined" && !prefersReducedMotion) {
+    if (lenisInstance) {
+      lenisInstance.destroy();
+    }
 
-  lenisInstance = new Lenis({
-    duration: 1.1,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true,
-    smoothTouch: false,
-    wheelMultiplier: 0.95,
-    touchMultiplier: 1.5,
-  });
+    lenisInstance = new Lenis({
+      duration: 1.05,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      smoothTouch: false,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.5,
+    });
 
-  function raf(time) {
-    lenisInstance.raf(time);
+    window.lenisInstance = lenisInstance;
+
+    function raf(time) {
+      if (lenisInstance) {
+        lenisInstance.raf(time);
+      }
+      requestAnimationFrame(raf);
+    }
     requestAnimationFrame(raf);
   }
-  requestAnimationFrame(raf);
 
   // Smooth anchor navigation
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -44,19 +64,12 @@ function initLenis() {
       if (!target) return;
 
       e.preventDefault();
+      closeMobileMenu();
 
       if (lenisInstance) {
-        lenisInstance.scrollTo(target, { offset: -85 });
+        lenisInstance.scrollTo(target, { offset: -84 });
       } else {
-        target.scrollIntoView({ behavior: "smooth" });
-      }
-
-      // Close mobile menu if open
-      const nav = document.querySelector(".nav-links");
-      const menu = document.getElementById("menu-btn");
-      if (nav && nav.classList.contains("show")) {
-        nav.classList.remove("show");
-        if (menu) menu.classList.remove("open");
+        target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
       }
     });
   });
@@ -69,27 +82,10 @@ if (document.readyState === "loading") {
 }
 
 /*==========================================================
-  PRELOADER
-==========================================================*/
-
-window.addEventListener("load", () => {
-  const preloader = document.getElementById("preloader");
-  if (!preloader) return;
-
-  setTimeout(() => {
-    preloader.classList.add("fade");
-    setTimeout(() => {
-      preloader.style.display = "none";
-    }, 600);
-  }, 600);
-});
-
-/*==========================================================
   OPTIMIZED SCROLL HANDLER (THROTTLED VIA RAF)
 ==========================================================*/
 
 const progressBar = document.getElementById("progress-bar");
-const header = document.querySelector("header");
 const navbar = document.querySelector(".navbar");
 const backBtn = document.getElementById("backToTop");
 const sections = document.querySelectorAll("section[id]");
@@ -104,27 +100,18 @@ function onScrollThrottled() {
   if (progressBar) {
     const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
     const progress = totalHeight > 0 ? (scrollY / totalHeight) * 100 : 0;
-    progressBar.style.width = `${progress}%`;
+    progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
   }
 
-  // 2. Navbar Styling
-  if (header && navbar) {
-    if (scrollY > 60) {
-      header.style.padding = "12px 7%";
-      navbar.classList.add("scrolled");
-    } else {
-      header.style.padding = "18px 7%";
-      navbar.classList.remove("scrolled");
-    }
+  // 2. Navbar Styling (Managed via CSS class so responsive padding is preserved)
+  if (navbar) {
+    navbar.classList.toggle("scrolled", scrollY > 40);
   }
 
   // 3. Back to Top Visibility
   if (backBtn) {
-    if (scrollY > 500) {
-      backBtn.classList.add("visible");
-    } else {
-      backBtn.classList.remove("visible");
-    }
+    const isVisible = scrollY > 400;
+    backBtn.classList.toggle("visible", isVisible);
   }
 
   // 4. Active Section Highlighting
@@ -138,27 +125,37 @@ function onScrollThrottled() {
   });
 
   navLinks.forEach((link) => {
-    link.classList.remove("active");
-    if (currentSection && link.getAttribute("href") === `#${currentSection}`) {
-      link.classList.add("active");
+    const isMatch = Boolean(currentSection && link.getAttribute("href") === `#${currentSection}`);
+    link.classList.toggle("active", isMatch);
+    if (isMatch) {
+      link.setAttribute("aria-current", "location");
+    } else {
+      link.removeAttribute("aria-current");
     }
   });
 
   isTicking = false;
 }
 
-window.addEventListener("scroll", () => {
-  if (!isTicking) {
-    requestAnimationFrame(onScrollThrottled);
-    isTicking = true;
-  }
-}, { passive: true });
+window.addEventListener(
+  "scroll",
+  () => {
+    if (!isTicking) {
+      requestAnimationFrame(onScrollThrottled);
+      isTicking = true;
+    }
+  },
+  { passive: true }
+);
+
+// Run once on load to set initial state
+onScrollThrottled();
 
 // Back to Top Click
 if (backBtn) {
   backBtn.addEventListener("click", () => {
     if (lenisInstance) {
-      lenisInstance.scrollTo(0, { duration: 1 });
+      lenisInstance.scrollTo(0, { duration: 0.9 });
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -166,100 +163,62 @@ if (backBtn) {
 }
 
 /*==========================================================
-  TYPING EFFECT (HERO)
-==========================================================*/
-
-const typingWords = [
-  "Full Stack Developer",
-  "UI / UX Designer",
-  "IoT & Cybersecurity Enthusiast",
-  "AI & Python Engineer",
-  "Creative Problem Solver"
-];
-
-let wordIdx = 0;
-let charIdx = 0;
-let isDeleting = false;
-const typingElement = document.getElementById("typing");
-
-function runTypingEffect() {
-  if (!typingElement) return;
-
-  const currentWord = typingWords[wordIdx];
-
-  if (!isDeleting) {
-    typingElement.textContent = currentWord.substring(0, charIdx++);
-    if (charIdx > currentWord.length) {
-      isDeleting = true;
-      setTimeout(runTypingEffect, 1700);
-      return;
-    }
-  } else {
-    typingElement.textContent = currentWord.substring(0, charIdx--);
-    if (charIdx === 0) {
-      isDeleting = false;
-      wordIdx = (wordIdx + 1) % typingWords.length;
-    }
-  }
-
-  setTimeout(runTypingEffect, isDeleting ? 35 : 85);
-}
-
-if (typingElement) {
-  runTypingEffect();
-}
-
-/*==========================================================
-  BUTTON RIPPLE EFFECT
-==========================================================*/
-
-document.querySelectorAll("button, .primary-btn, .secondary-btn, .proj-link-btn").forEach((btn) => {
-  btn.addEventListener("click", function (e) {
-    const ripple = document.createElement("span");
-    const rect = this.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-
-    ripple.style.width = `${size}px`;
-    ripple.style.height = `${size}px`;
-    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
-    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
-    ripple.className = "ripple";
-
-    this.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
-  });
-});
-
-/*==========================================================
-  MOBILE MENU
+  MOBILE MENU (Accessible Button + Escape & Outside Click)
 ==========================================================*/
 
 const mobileMenuBtn = document.getElementById("menu-btn");
-const mobileNavLinks = document.querySelector(".nav-links");
+const mobileNavLinks = document.getElementById("primary-navigation") || document.querySelector(".nav-links");
 
 if (mobileMenuBtn && mobileNavLinks) {
-  mobileMenuBtn.addEventListener("click", () => {
-    mobileNavLinks.classList.toggle("show");
-    mobileMenuBtn.classList.toggle("open");
+  mobileMenuBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = mobileNavLinks.classList.toggle("show");
+    mobileMenuBtn.classList.toggle("open", isOpen);
+    mobileMenuBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    mobileMenuBtn.setAttribute(
+      "aria-label",
+      isOpen ? "Close navigation menu" : "Open navigation menu"
+    );
   });
 
-  document.querySelectorAll(".nav-links a").forEach((link) => {
-    link.addEventListener("click", () => {
-      mobileNavLinks.classList.remove("show");
-      mobileMenuBtn.classList.remove("open");
-    });
+  document.addEventListener("click", (e) => {
+    if (
+      mobileNavLinks.classList.contains("show") &&
+      !mobileNavLinks.contains(e.target) &&
+      !mobileMenuBtn.contains(e.target)
+    ) {
+      closeMobileMenu();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && mobileNavLinks.classList.contains("show")) {
+      closeMobileMenu();
+      mobileMenuBtn.focus();
+    }
   });
 }
 
 /*==========================================================
-  REAL EMAIL CONTACT FORM (FormSubmit AJAX + Fallback)
+  CONTACT FORM (Accessible Validation + FormSubmit AJAX)
 ==========================================================*/
 
 const contactForm = document.getElementById("contactForm");
 const submitBtn = document.getElementById("submitBtn");
 const formStatus = document.getElementById("formStatus");
 
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 if (contactForm) {
+  const inputs = contactForm.querySelectorAll("input, textarea");
+  inputs.forEach((input) => {
+    input.addEventListener("input", () => {
+      input.removeAttribute("aria-invalid");
+    });
+  });
+
   contactForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -270,22 +229,46 @@ if (contactForm) {
 
     const name = nameInput ? nameInput.value.trim() : "";
     const email = emailInput ? emailInput.value.trim() : "";
-    const subject = subjectInput ? subjectInput.value.trim() : "Portfolio Contact Form Message";
+    const subject =
+      subjectInput && subjectInput.value.trim()
+        ? subjectInput.value.trim()
+        : "Portfolio Project Inquiry";
     const message = messageInput ? messageInput.value.trim() : "";
 
-    if (!name || !email || !message) {
-      showNotification("⚠️ Please fill in all required fields.", "error");
+    let hasError = false;
+    if (!name && nameInput) {
+      nameInput.setAttribute("aria-invalid", "true");
+      hasError = true;
+    }
+    if ((!email || !isValidEmail(email)) && emailInput) {
+      emailInput.setAttribute("aria-invalid", "true");
+      hasError = true;
+    }
+    if (!message && messageInput) {
+      messageInput.setAttribute("aria-invalid", "true");
+      hasError = true;
+    }
+
+    if (hasError) {
+      const errMsg = !email || !isValidEmail(email)
+        ? "Please enter your name, a valid email address, and your project details."
+        : "Please fill in all required fields (Name, Email, and Project Details).";
+      if (formStatus) {
+        formStatus.className = "form-status error";
+        formStatus.textContent = errMsg;
+      }
+      showNotification(errMsg, "error");
       return;
     }
 
-    // Set loading state
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending message...';
+      submitBtn.innerHTML =
+        '<i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i> Sending inquiry...';
     }
     if (formStatus) {
       formStatus.className = "form-status sending";
-      formStatus.textContent = "Connecting to mail server...";
+      formStatus.textContent = "Sending your message...";
     }
 
     try {
@@ -293,12 +276,12 @@ if (contactForm) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify({
           name: name,
           email: email,
-          _subject: `Portfolio Contact: ${subject} (from ${name})`,
+          _subject: `Portfolio Inquiry: ${subject} (from ${name})`,
           message: message,
         }),
       });
@@ -306,32 +289,40 @@ if (contactForm) {
       const result = await response.json();
 
       if (response.ok || (result && result.success === "true")) {
-        showNotification("🎉 Thank you! Your message has been delivered to Sharanya's inbox.", "success");
+        showNotification(
+          "Thank you! Your message has been sent to Sharanya's inbox.",
+          "success"
+        );
         if (formStatus) {
           formStatus.className = "form-status success";
-          formStatus.innerHTML = '<i class="fa-solid fa-check-circle"></i> Message sent successfully to <strong>sharureddy13@gmail.com</strong>!';
+          formStatus.innerHTML =
+            '<i class="fa-solid fa-circle-check" aria-hidden="true"></i> Message sent to <strong>sharureddy13@gmail.com</strong>. I will respond within 24 hours.';
         }
         contactForm.reset();
       } else {
-        throw new Error(result.message || "Failed to deliver message via API");
+        throw new Error((result && result.message) || "Unable to complete form request.");
       }
     } catch (err) {
-      console.warn("Direct form submission error:", err);
-      // Offer direct mailto fallback
-      const mailtoUrl = `mailto:sharureddy13@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Hi Sharanya,\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
-      
-      showNotification("⚠️ Message sending timed out. Opening email client fallback...", "error");
+      console.warn("Form submission fallback triggered:", err);
+      const mailtoUrl = `mailto:sharureddy13@gmail.com?subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(
+        `Hi Sharanya,\n\nName: ${name}\nEmail: ${email}\n\nProject Details:\n${message}`
+      )}`;
+
+      showNotification(
+        "Direct submission unavailable right now. Use the email link below to send via your mail app.",
+        "error"
+      );
       if (formStatus) {
         formStatus.className = "form-status error";
-        formStatus.innerHTML = `⚠️ Could not reach endpoint directly. <a href="${mailtoUrl}" class="fallback-mail-link"><i class="fa-solid fa-envelope-open"></i> Click here to send via your email client directly</a>.`;
+        formStatus.innerHTML = `Could not reach the form service right now. <a href="${mailtoUrl}" class="fallback-mail-link"><i class="fa-solid fa-envelope" aria-hidden="true"></i> Click here to send directly via your email client</a>.`;
       }
-      setTimeout(() => {
-        window.location.href = mailtoUrl;
-      }, 1500);
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span class="btn-text">Send Message</span> <i class="fa-solid fa-paper-plane btn-icon"></i>';
+        submitBtn.innerHTML =
+          '<span class="btn-text">Send Project Inquiry</span> <i class="fa-solid fa-paper-plane btn-icon" aria-hidden="true"></i>';
       }
     }
   });
@@ -347,7 +338,9 @@ function showNotification(message, type = "info") {
 
   const toast = document.createElement("div");
   toast.className = `toast ${type}`;
-  toast.innerHTML = message;
+  toast.setAttribute("role", "status");
+  toast.setAttribute("aria-live", "polite");
+  toast.textContent = message;
   document.body.appendChild(toast);
 
   requestAnimationFrame(() => {
@@ -356,25 +349,9 @@ function showNotification(message, type = "info") {
 
   setTimeout(() => {
     toast.classList.remove("show");
-    setTimeout(() => toast.remove(), 400);
-  }, 4000);
+    setTimeout(() => toast.remove(), 350);
+  }, 4500);
 }
-
-/*==========================================================
-  IMAGE FALLBACK ERROR HANDLER
-==========================================================*/
-
-const IMG_FALLBACK = "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop";
-const PROFILE_FALLBACK = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop";
-
-document.querySelectorAll("img").forEach((img) => {
-  img.addEventListener("error", function () {
-    if (this.dataset.fallbackApplied) return;
-    this.dataset.fallbackApplied = "true";
-    const isProfile = this.closest(".profile-circle, .about-image, .contact-left");
-    this.src = isProfile ? PROFILE_FALLBACK : IMG_FALLBACK;
-  });
-});
 
 /*==========================================================
   DYNAMIC FOOTER YEAR
@@ -384,8 +361,3 @@ const yearEl = document.getElementById("year");
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
 }
-
-console.log(
-  "%cSharanya N | Premium Portfolio v2.0 Loaded 🚀",
-  "color:#00E5FF;font-size:16px;font-weight:bold;background:#050816;padding:4px 8px;border-radius:4px;"
-);

@@ -1,152 +1,93 @@
 /* ==========================================================
-   THEME.JS
-   Light / Dark Mode
+   THEME.JS — Accessible Light / Dark Theme Controller
+   Respects system preference by default, persists user override,
+   syncs <meta name="color-scheme"> and body.light without FOUC
 ========================================================== */
 
 "use strict";
 
-/* ==========================================================
-   ELEMENTS
-========================================================== */
+(function () {
+  const STORAGE_KEY = "portfolio-theme";
+  const toggleBtn = document.getElementById("themeToggle");
+  const schemeMeta = document.querySelector('meta[name="color-scheme"]');
+  const prefersLightQuery = window.matchMedia
+    ? window.matchMedia("(prefers-color-scheme: light)")
+    : null;
 
-const themeToggle = document.getElementById("themeToggle");
-const body = document.body;
+  function getSystemScheme() {
+    return prefersLightQuery && prefersLightQuery.matches ? "light" : "dark";
+  }
 
-/* ==========================================================
-   APPLY THEME
-========================================================== */
+  function getStoredScheme() {
+    try {
+      const val = localStorage.getItem(STORAGE_KEY);
+      return val === "light" || val === "dark" ? val : null;
+    } catch (_) {
+      return null;
+    }
+  }
 
-function applyTheme(theme){
+  function getResolvedScheme() {
+    return getStoredScheme() || getSystemScheme();
+  }
 
-    if(theme === "light"){
+  function applyThemeState() {
+    const stored = getStoredScheme();
+    const resolved = stored || getSystemScheme();
+    const isLight = resolved === "light";
 
-        body.classList.add("light");
+    document.body.classList.toggle("light", isLight);
+    document.documentElement.setAttribute("data-theme", resolved);
 
-        if(themeToggle){
-            themeToggle.innerHTML =
-            '<i class="fa-solid fa-sun"></i>';
-        }
-
-    }else{
-
-        body.classList.remove("light");
-
-        if(themeToggle){
-            themeToggle.innerHTML =
-            '<i class="fa-solid fa-moon"></i>';
-        }
-
+    if (schemeMeta) {
+      schemeMeta.content = stored ? stored : "light dark";
     }
 
-}
+    if (toggleBtn) {
+      toggleBtn.innerHTML = isLight
+        ? '<i class="fas fa-moon" aria-hidden="true"></i>'
+        : '<i class="fas fa-sun" aria-hidden="true"></i>';
+      const nextThemeLabel = isLight ? "Switch to dark theme" : "Switch to light theme";
+      toggleBtn.setAttribute("aria-label", nextThemeLabel);
+      toggleBtn.setAttribute("title", nextThemeLabel);
+      toggleBtn.setAttribute("aria-pressed", isLight ? "true" : "false");
+    }
 
-/* ==========================================================
-   LOAD SAVED THEME
-========================================================== */
+    window.dispatchEvent(new CustomEvent("portfolio:themechange", { detail: { theme: resolved } }));
+  }
 
-const savedTheme =
-localStorage.getItem("portfolio-theme") || "dark";
+  applyThemeState();
 
-applyTheme(savedTheme);
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      const currentResolved = getResolvedScheme();
+      const target = currentResolved === "light" ? "dark" : "light";
+      const system = getSystemScheme();
 
-/* ==========================================================
-   TOGGLE
-========================================================== */
+      try {
+        if (target === system) {
+          localStorage.removeItem(STORAGE_KEY);
+        } else {
+          localStorage.setItem(STORAGE_KEY, target);
+        }
+      } catch (_) {
+        // Ignore storage errors in restricted environments
+      }
 
-if(themeToggle){
+      applyThemeState();
+    });
+  }
 
-themeToggle.addEventListener("click",()=>{
+  if (prefersLightQuery && typeof prefersLightQuery.addEventListener === "function") {
+    prefersLightQuery.addEventListener("change", () => {
+      // Never delete a stored value retroactively when OS changes; only re-apply
+      applyThemeState();
+    });
+  }
 
-const current =
-body.classList.contains("light")
-? "light"
-: "dark";
-
-const next =
-current === "dark"
-? "light"
-: "dark";
-
-applyTheme(next);
-
-localStorage.setItem(
-"portfolio-theme",
-next
-);
-
-themeToggle.animate([
-
-{
-transform:"rotate(0deg) scale(1)"
-},
-
-{
-transform:"rotate(180deg) scale(1.25)"
-},
-
-{
-transform:"rotate(360deg) scale(1)"
-}
-
-],{
-
-duration:700,
-
-easing:"ease"
-
-});
-
-});
-
-}
-
-/* ==========================================================
-   SMOOTH TRANSITION
-========================================================== */
-
-window.addEventListener("DOMContentLoaded",()=>{
-
-document.body.style.transition=
-"background .5s,color .5s";
-
-});
-
-/* ==========================================================
-   SYSTEM THEME (FIRST VISIT)
-========================================================== */
-
-if(!localStorage.getItem("portfolio-theme")){
-
-const prefersLight =
-window.matchMedia("(prefers-color-scheme: light)").matches;
-
-const initialTheme =
-prefersLight ? "light" : "dark";
-
-applyTheme(initialTheme);
-
-localStorage.setItem(
-"portfolio-theme",
-initialTheme
-);
-
-}
-
-/* ==========================================================
-   LISTEN TO SYSTEM CHANGE
-========================================================== */
-
-window.matchMedia("(prefers-color-scheme: dark)")
-.addEventListener("change",(e)=>{
-
-if(localStorage.getItem("portfolio-theme")) return;
-
-applyTheme(e.matches ? "dark" : "light");
-
-});
-
-/* ==========================================================
-   END
-========================================================== */
-
-console.log("Theme Loaded Successfully 🌙");
+  window.addEventListener("storage", (e) => {
+    if (e.key === STORAGE_KEY) {
+      applyThemeState();
+    }
+  });
+})();
