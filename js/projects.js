@@ -108,6 +108,9 @@ function renderProjects(filter = activeFilter) {
     .join("");
 
   bindProjectEvents();
+  if (typeof window.refreshScrollReveals === "function") {
+    window.refreshScrollReveals();
+  }
 }
 
 function openProject(id, triggerEl) {

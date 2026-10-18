@@ -234,6 +234,43 @@ const portfolioData = {
     },
     {
       id: 5,
+      featured: true,
+      title: "Spy-fi — AI-Based Cyber Threat Detection",
+      categoryLabel: "AI & Cybersecurity Platform",
+      subtitle: "One-Way Network Threat Detection & SOC Investigation Dashboard",
+      period: "Jan 2026 – Feb 2026",
+      image: "assets/images/projects/spy_fi.png",
+      category: "ai",
+      problem:
+        "Critical industrial and enterprise networks deploy unidirectional data diodes to prevent data exfiltration, but incoming one-way traffic can still carry hidden port scans, volumetric denial-of-service bursts, and malicious payloads without allowing traditional two-way TCP handshake inspection.",
+      contribution:
+        "Engineered the full-stack security intelligence console in Next.js, TypeScript, and Tailwind CSS; structured the 12+ dimensional flow feature extraction contract for the FastAPI machine-learning inference pipeline; and built the real-time SOC investigation dashboard with telemetry graphs and XAI alert reasoning.",
+      shortDescription:
+        "AI-powered cybersecurity platform for analyzing unidirectional network traffic and identifying cyber threats, with an explainable AI security operations dashboard.",
+      description:
+        "Spy-fi is an AI-powered cybersecurity platform designed to inspect and classify network traffic passing into high-security unidirectional (data diode) network environments. It monitors multi-dimensional flow metrics to detect port scans, DoS volumetric bursts, brute force attempts, and protocol anomalies, providing SOC analysts with quantified confidence scores, anomaly rationales, and recommended remediation steps.",
+      scopeNote:
+        "Full-stack Next.js and TypeScript security intelligence console deployed on Vercel with simulated unidirectional packet stream feeds and FastAPI ML schema contracts.",
+      features: [
+        "Unidirectional IP telemetry inspection analyzing packet velocity, TCP flags, and connection distributions",
+        "Multi-class threat detection identifying Port Scanning, DoS / DDoS, Brute Force, and Protocol Anomalies",
+        "Explainable AI (XAI) security console providing anomaly rationales, confidence scores, and remediation steps",
+        "Real-time SOC investigation dashboard with telemetry charts (Recharts), live alerts, and risk levels",
+      ],
+      technologies: [
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Python",
+        "FastAPI",
+        "scikit-learn",
+        "Vercel",
+      ],
+      github: "https://github.com/Sharanya03-stack/Spy-fi",
+      live: "https://spy-fi-liart.vercel.app/",
+    },
+    {
+      id: 6,
       featured: false,
       title: "Browser Battle — Apex University Portal",
       categoryLabel: "Competition Frontend Build",
@@ -262,7 +299,7 @@ const portfolioData = {
       live: "https://browser-battle-eight.vercel.app",
     },
     {
-      id: 6,
+      id: 7,
       featured: false,
       title: "CI/CD Triage AI Agent",
       categoryLabel: "Developer Tooling Prototype",
@@ -291,7 +328,7 @@ const portfolioData = {
       live: null,
     },
     {
-      id: 7,
+      id: 8,
       featured: false,
       title: "Skill Sync",
       categoryLabel: "Full-Stack Concept & Prototype",
