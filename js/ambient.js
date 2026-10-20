@@ -13,9 +13,9 @@
   if (!ctx) return;
 
   const DARK_PALETTE = [
-    { r: 56, g: 189, b: 248 },  // Soft Sky
-    { r: 99, g: 102, b: 241 },  // Soft Indigo
-    { r: 45, g: 212, b: 191 },  // Muted Teal
+    { r: 255, g: 255, b: 255 },  // Soft White Starlight
+    { r: 215, g: 220, b: 230 },  // Subtle Neutral
+    { r: 190, g: 200, b: 215 },  // Soft Silver Dust
   ];
 
   const LIGHT_PALETTE = [

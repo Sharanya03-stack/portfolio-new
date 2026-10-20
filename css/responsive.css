@@ -59,9 +59,9 @@
     gap: 4px;
     padding: 14px;
     border-radius: 14px;
-    background-color: #111827;
-    border: 1px solid var(--border-strong);
-    box-shadow: 0 24px 48px rgba(2, 6, 23, 0.85);
+    background-color: var(--surface-solid);
+    border: 1px solid var(--border);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.95);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -210,19 +210,7 @@
   }
 
   .logo {
-    font-size: 1.05rem;
-    gap: 7px;
-  }
-
-  .logo-mark {
-    width: 25px;
-    height: 25px;
-    font-size: 0.82rem;
-    border-radius: 6px;
-  }
-
-  .logo-name {
-    font-size: 1.05rem;
+    font-size: 1.15rem;
   }
 
   .hero {
