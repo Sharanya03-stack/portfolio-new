@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
   <meta charset="UTF-8">
@@ -9,10 +9,10 @@
   <script>
     try {
       var savedScheme = localStorage.getItem("portfolio-theme");
-      if (savedScheme === "light" || savedScheme === "dark") {
-        document.querySelector('meta[name="color-scheme"]').content = savedScheme;
-        document.documentElement.setAttribute("data-theme", savedScheme);
-      }
+      var theme = (savedScheme === "dark") ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", theme);
+      var metaTheme = document.querySelector('meta[name="color-scheme"]');
+      if (metaTheme) metaTheme.content = theme;
     } catch (e) {}
   </script>
 
@@ -26,7 +26,7 @@
 
   <meta property="og:title" content="Sharanya N — Freelance Web & Full-Stack Developer">
   <meta property="og:description"
-    content="I build websites and web applications that solve real business problems — responsive sites, full-stack apps, dashboards, and practical AI integrations.">
+    content="I design and build websites that help businesses grow — responsive business sites, full-stack apps, dashboards, and practical AI integrations.">
   <meta property="og:image" content="assets/images/profile.jpg">
   <meta property="og:type" content="website">
 
@@ -44,7 +44,7 @@
   <link rel="stylesheet" href="css/responsive.css">
 </head>
 
-<body>
+<body class="light">
   <a href="#home" class="skip-link">Skip to main content</a>
 
   <!-- SCROLL PROGRESS BAR -->
@@ -64,10 +64,11 @@
       <ul class="nav-links" id="primary-nav">
         <li><a href="#home" class="active">Home</a></li>
         <li><a href="#projects">Work</a></li>
-        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#research">Research</a></li>
+        <li><a href="#education">Education</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
 
@@ -76,7 +77,7 @@
           <i class="fa-solid fa-moon" aria-hidden="true"></i>
         </button>
 
-        <a href="#contact" class="nav-cta-btn">Hire / Inquire</a>
+        <a href="#contact" class="nav-cta-btn">Discuss a Project</a>
 
         <button type="button" id="menu-btn" aria-label="Toggle navigation menu" aria-expanded="false"
           aria-controls="primary-nav">
@@ -97,17 +98,17 @@
         <div class="hero-left">
           <div class="hero-badge">
             <span class="status-dot" aria-hidden="true"></span>
-            Available for Freelance &amp; Internship Projects &bull; Bangalore, India
+            Available for Freelance Projects &bull; Bangalore, India
           </div>
 
           <h1>
-            I build websites and web applications that solve <span>real business problems.</span>
+            I design and build websites that <span>help businesses grow.</span>
           </h1>
 
           <p class="hero-lead">
-            I partner with businesses, startups, and teams to design and develop <strong>responsive business
-              websites</strong>, <strong>full-stack web applications</strong>, <strong>interactive dashboards</strong>,
-            and <strong>practical AI integrations</strong>—combining Figma UI/UX clarity with clean, maintainable code.
+            I partner with businesses, founders, and teams to design and build <strong>high-converting websites</strong>,
+            <strong>full-stack web applications</strong>, <strong>interactive dashboards</strong>, and
+            <strong>practical AI integrations</strong>—combining Figma UI/UX clarity with clean, performant code.
           </p>
 
           <div class="hero-buttons">
@@ -159,7 +160,7 @@
             <div class="profile-caption">
               <div class="profile-caption-title">
                 <strong>Sharanya N</strong>
-                <span>Web Developer &amp; UI/UX Designer</span>
+                <span>Freelance Web Developer &amp; UI/UX Designer</span>
               </div>
               <ul class="profile-highlights" aria-label="Verified credentials">
                 <li><i class="fa-solid fa-trophy" aria-hidden="true"></i> IBM AI Hackathon Winner</li>
@@ -181,23 +182,19 @@
           <p class="section-eyebrow">SELECTED WORK</p>
           <h2>Featured Projects &amp; Case Studies</h2>
           <p class="section-subtitle">
-            Real web applications, business websites, and engineering prototypes with verified live deployments and
-            public source repositories.
+            Real client-ready web applications, business websites, and cybersecurity tooling with verified live deployments and public source code.
           </p>
         </div>
 
         <div class="project-filter-bar" role="group" aria-label="Filter projects">
-          <button type="button" class="filter-btn active" data-filter="featured" aria-pressed="true">
-            Featured Work (5)
-          </button>
-          <button type="button" class="filter-btn" data-filter="all" aria-pressed="false">
-            All Projects (8)
+          <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">
+            All Projects (5)
           </button>
           <button type="button" class="filter-btn" data-filter="web" aria-pressed="false">
-            Web &amp; Full-Stack
+            Web &amp; Full-Stack (4)
           </button>
           <button type="button" class="filter-btn" data-filter="ai" aria-pressed="false">
-            AI &amp; Dashboards
+            AI &amp; Security (1)
           </button>
         </div>
       </div>
@@ -215,132 +212,113 @@
     </section>
 
     <!-- =====================================================
-    3. ABOUT & CAPABILITIES SECTION
+    3. SERVICES I OFFER SECTION
     ===================================================== -->
-    <section id="about" class="about section">
+    <section id="services" class="services section">
       <div class="section-title">
-        <p class="section-eyebrow">ABOUT &amp; SERVICES</p>
-        <h2>How I Help Clients &amp; Teams</h2>
+        <p class="section-eyebrow">SERVICES I OFFER</p>
+        <h2>How I Help Businesses &amp; Founders</h2>
         <p>
-          Combining structured UI/UX design with practical frontend and backend engineering to deliver clean,
-          reliable digital products.
+          From initial concept and Figma wireframes to responsive frontend, backend APIs, and production deployment.
         </p>
       </div>
 
-      <div class="about-container">
-        <div class="about-content">
-          <h3>Engineering clarity from wireframe to deployment</h3>
-          <p>
-            I am a Computer Science Engineering student at <strong>Sri Sairam College of Engineering,
-              Bangalore</strong> (specializing in IoT, Cybersecurity &amp; Blockchain) with hands-on industry experience
-            as a <strong>UI/UX Design Intern at Edufyi Tech Solutions</strong>.
-          </p>
-          <p>
-            Whether you need a high-converting business or hospitality website, an interactive product or real-estate
-            catalog, or a custom Python/FastAPI dashboard, I focus on responsive layouts, fast load times, accessible
-            markup, and maintainable code.
-          </p>
-
-          <div class="services-grid">
-            <div class="service-item">
-              <div class="service-icon"><i class="fa-solid fa-display" aria-hidden="true"></i></div>
-              <div>
-                <h4>Business &amp; Product Websites</h4>
-                <p>Responsive, mobile-first websites with clear information hierarchy, interactive menus, and booking or
-                  lead capture flows.</p>
-              </div>
-            </div>
-
-            <div class="service-item">
-              <div class="service-icon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></div>
-              <div>
-                <h4>Full-Stack Web Applications</h4>
-                <p>Modern React and Next.js applications with dynamic filtering, cart/checkout state, REST APIs, and
-                  database integration.</p>
-              </div>
-            </div>
-
-            <div class="service-item">
-              <div class="service-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></div>
-              <div>
-                <h4>Dashboards &amp; AI Integrations</h4>
-                <p>Data-driven Streamlit and FastAPI dashboards integrating computer vision, log analysis, and
-                  practical LLM workflows.</p>
-              </div>
-            </div>
-
-            <div class="service-item">
-              <div class="service-icon"><i class="fa-solid fa-pen-nib" aria-hidden="true"></i></div>
-              <div>
-                <h4>UI/UX Design &amp; Prototyping</h4>
-                <p>Wireframes, component systems, and interactive Figma prototypes before writing production code.</p>
-              </div>
-            </div>
+      <div class="services-full-grid">
+        <article class="service-card glass-card">
+          <div class="service-icon" aria-hidden="true"><i class="fa-solid fa-display"></i></div>
+          <div class="service-body">
+            <h3>Business Websites &amp; Landing Pages</h3>
+            <p>
+              Fast, mobile-first websites with clean typography, clear information architecture, and lead capture workflows that build client credibility and drive inquiries.
+            </p>
+            <ul class="service-deliverables">
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Responsive Multi-Page Sites</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Interactive Digital Menus &amp; Catalogs</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Lead Capture &amp; Booking Forms</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> SEO &amp; Speed Optimization</li>
+            </ul>
+            <a href="#contact" class="service-cta">Discuss this service &rarr;</a>
           </div>
-        </div>
+        </article>
 
-        <aside class="about-sidebar" aria-label="Quick profile facts">
-          <div class="info-grid">
-            <div class="info-card">
-              <i class="fa-solid fa-user" aria-hidden="true"></i>
-              <div>
-                <h4>Name</h4>
-                <p>Sharanya N</p>
-              </div>
-            </div>
-
-            <div class="info-card">
-              <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-              <div>
-                <h4>Location</h4>
-                <p>Bangalore, India</p>
-              </div>
-            </div>
-
-            <div class="info-card">
-              <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-              <div>
-                <h4>Email</h4>
-                <p><a href="mailto:sharureddy13@gmail.com">sharureddy13@gmail.com</a></p>
-              </div>
-            </div>
-
-            <div class="info-card">
-              <i class="fa-solid fa-phone" aria-hidden="true"></i>
-              <div>
-                <h4>Phone</h4>
-                <p><a href="tel:+916362813866">+91-6362813866</a></p>
-              </div>
-            </div>
-
-            <div class="info-card">
-              <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
-              <div>
-                <h4>Degree</h4>
-                <p>B.E. CSE (IoT &amp; Cybersecurity), 2024–2028</p>
-              </div>
-            </div>
-
-            <div class="info-card">
-              <i class="fa-solid fa-briefcase" aria-hidden="true"></i>
-              <div>
-                <h4>Industry Role</h4>
-                <p>UI/UX Design Intern — Edufyi Tech Solutions</p>
-              </div>
-            </div>
+        <article class="service-card glass-card">
+          <div class="service-icon" aria-hidden="true"><i class="fa-solid fa-layer-group"></i></div>
+          <div class="service-body">
+            <h3>Full-Stack Web Applications</h3>
+            <p>
+              Custom web applications engineered with Next.js, React, and FastAPI, featuring multi-criteria search, dynamic state management, and reliable API integrations.
+            </p>
+            <ul class="service-deliverables">
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Product Discovery &amp; Filterable Catalogs</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Interactive Shopping Carts &amp; State</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> RESTful API Architecture</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Relational Database Integration</li>
+            </ul>
+            <a href="#contact" class="service-cta">Discuss this service &rarr;</a>
           </div>
-        </aside>
+        </article>
+
+        <article class="service-card glass-card">
+          <div class="service-icon" aria-hidden="true"><i class="fa-solid fa-chart-line"></i></div>
+          <div class="service-body">
+            <h3>Dashboards &amp; Admin Panels</h3>
+            <p>
+              Data-focused administrative dashboards and telemetry consoles that organize complex datasets into intuitive charts, real-time metrics, and manageable workflows.
+            </p>
+            <ul class="service-deliverables">
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Operational Metric Cards &amp; KPIs</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Interactive Charting (Recharts)</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Real-Time Activity &amp; Audit Logs</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Clean Data Tables with Filters</li>
+            </ul>
+            <a href="#contact" class="service-cta">Discuss this service &rarr;</a>
+          </div>
+        </article>
+
+        <article class="service-card glass-card">
+          <div class="service-icon" aria-hidden="true"><i class="fa-solid fa-pen-ruler"></i></div>
+          <div class="service-body">
+            <h3>UI/UX Design &amp; Prototyping</h3>
+            <p>
+              User-centered design systems, structured wireframes, and interactive Figma prototypes that validate application flows and layout before writing code.
+            </p>
+            <ul class="service-deliverables">
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Figma Wireframes &amp; User Flows</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Scalable Component Design Systems</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Interactive Clickable Prototypes</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Usability &amp; Mobile Layout Audits</li>
+            </ul>
+            <a href="#contact" class="service-cta">Discuss this service &rarr;</a>
+          </div>
+        </article>
+
+        <article class="service-card glass-card">
+          <div class="service-icon" aria-hidden="true"><i class="fa-solid fa-brain"></i></div>
+          <div class="service-body">
+            <h3>Practical AI &amp; API Integrations</h3>
+            <p>
+              Purposeful integrations of machine learning models, telemetry classification, and third-party APIs that solve real domain problems without unnecessary complexity.
+            </p>
+            <ul class="service-deliverables">
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Scikit-learn / ML Pipelines</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Anomaly Detection Telemetry</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Third-Party REST Integrations</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> FastAPI Microservice Endpoints</li>
+            </ul>
+            <a href="#contact" class="service-cta">Discuss this service &rarr;</a>
+          </div>
+        </article>
       </div>
 
       <!-- VERIFIED METRICS -->
       <div class="stats-container" aria-label="Verified portfolio summary metrics">
         <div class="stat-card">
-          <h3 class="counter" data-target="8">8</h3>
+          <h3 class="counter" data-target="5">5</h3>
           <p>Public Projects Built</p>
         </div>
 
         <div class="stat-card">
-          <h3 class="counter" data-target="6">6</h3>
+          <h3 class="counter" data-target="5">5</h3>
           <p>Live Deployed Demos</p>
         </div>
 
@@ -362,73 +340,74 @@
     </section>
 
     <!-- =====================================================
-    4. EXPERIENCE & EDUCATION SECTION
+    4. FREELANCE & DEVELOPMENT EXPERIENCE
     ===================================================== -->
     <section id="experience" class="experience section">
       <div class="section-title">
-        <p class="section-eyebrow">EXPERIENCE &amp; EDUCATION</p>
-        <h2>Professional &amp; Academic Background</h2>
-        <p>Verified industry internship experience, academic degree, and technical certifications.</p>
+        <p class="section-eyebrow">PROFESSIONAL BACKGROUND</p>
+        <h2>Freelance &amp; Development Experience</h2>
+        <p>Direct client engagements, industry internship experience, and end-to-end project deliveries.</p>
       </div>
 
-      <div class="exp-edu-grid">
-        <!-- Left Column: Professional Experience -->
-        <div class="exp-column">
-          <h3 class="column-heading"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Industry Experience</h3>
-          <div class="timeline">
-            <article class="timeline-item">
-              <div class="timeline-dot" aria-hidden="true"></div>
-              <div class="timeline-content glass-card">
+      <div class="experience-timeline">
+        <article class="timeline-item">
+          <div class="timeline-dot" aria-hidden="true"></div>
+          <div class="timeline-content glass-card">
+            <div class="timeline-header-row">
+              <div>
+                <span class="timeline-period">2025 – Present</span>
+                <h4>Freelance Web Developer &amp; UI/UX Designer</h4>
+                <h5>Independent Practice &bull; Bangalore, India &amp; Remote</h5>
+              </div>
+            </div>
+            <p>
+              I work directly with business owners, founders, and student initiatives to deliver custom websites, full-stack applications, and interactive dashboards from initial concept to production deployment.
+            </p>
+            <ul class="timeline-bullets">
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Delivered full-stack applications and business websites including <strong>NexBasket</strong> (e-commerce), <strong>House Hunt</strong> (real estate catalog), and <strong>Zero Degree Cafe &amp; Brewery</strong> (hospitality web presence).</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Engineered responsive, accessible component systems in <strong>Next.js, React, TypeScript</strong>, and <strong>Tailwind CSS</strong> with fast load speeds and mobile-first navigation.</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Integrated Python/FastAPI backend APIs and telemetry services for data-driven applications like <strong>Spy-fi</strong>.</li>
+            </ul>
+            <div class="timeline-tags" aria-label="Skills applied in freelance practice">
+              <span>Next.js</span>
+              <span>React</span>
+              <span>TypeScript</span>
+              <span>Python / FastAPI</span>
+              <span>Figma</span>
+              <span>Tailwind CSS</span>
+              <span>Client Delivery</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="timeline-item">
+          <div class="timeline-dot" aria-hidden="true"></div>
+          <div class="timeline-content glass-card">
+            <div class="timeline-header-row">
+              <div>
                 <span class="timeline-period">Aug 2025 – Oct 2025</span>
                 <h4>UI/UX Design Intern</h4>
-                <h5>Edufyi Tech Solutions</h5>
-                <p>
-                  Designed user-friendly interfaces for web and mobile applications. Created wireframes, user flows, and
-                  interactive prototypes using Figma, improving application usability through responsive, user-centered
-                  design principles.
-                </p>
-                <div class="timeline-tags" aria-label="Skills used in internship">
-                  <span>Figma</span>
-                  <span>UI Design</span>
-                  <span>UX Research</span>
-                  <span>Responsive Design</span>
-                  <span>Prototyping</span>
-                </div>
+                <h5>Edufyi Tech Solutions &bull; Bangalore, India</h5>
               </div>
-            </article>
-          </div>
-        </div>
-
-        <!-- Right Column: Education & Certifications -->
-        <div class="edu-column" id="education">
-          <h3 class="column-heading"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> Education &amp;
-            Certifications</h3>
-
-          <article class="education-card glass-card">
-            <div class="education-icon" aria-hidden="true">
-              <i class="fa-solid fa-building-columns"></i>
             </div>
-            <div class="education-content">
-              <span class="timeline-period">2024 – 2028</span>
-              <h4>Bachelor of Engineering (B.E.) in Computer Science Engineering</h4>
-              <h5>Sri Sairam College of Engineering, Bangalore</h5>
-              <p class="education-spec">
-                Specialization: CSE (IoT, Cybersecurity including Blockchain)
-              </p>
-            </div>
-          </article>
-
-          <div class="certifications-box glass-card">
-            <h4><i class="fa-solid fa-certificate" aria-hidden="true"></i> Verified Certifications &amp; Training</h4>
-            <ul class="cert-list">
-              <li><strong>IBM SkillsBuild:</strong> Generative AI Fundamentals</li>
-              <li><strong>IBM SkillsBuild:</strong> Artificial Intelligence Fundamentals</li>
-              <li><strong>IBM SkillsBuild:</strong> Prompt Engineering</li>
-              <li><strong>NPTEL:</strong> Cloud Computing (Elite Certificate)</li>
-              <li><strong>COMEDKARES:</strong> Hands-on Workshop Training</li>
+            <p>
+              Designed intuitive user interfaces for web and mobile products. Built structured wireframes, component design systems, and interactive Figma prototypes that clarified navigation hierarchy and improved user task completion.
+            </p>
+            <ul class="timeline-bullets">
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Created user flows, journey maps, and high-fidelity screen mockups aligned with product requirements.</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Maintained component design libraries for consistent cross-device UI implementation.</li>
+              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Collaborated with developers and project leads during sprint design reviews.</li>
             </ul>
+            <div class="timeline-tags" aria-label="Skills used in internship">
+              <span>Figma</span>
+              <span>UI/UX Design</span>
+              <span>Component Systems</span>
+              <span>Wireframing</span>
+              <span>Interactive Prototyping</span>
+              <span>Usability Testing</span>
+            </div>
           </div>
-        </div>
+        </article>
       </div>
     </section>
 
@@ -437,11 +416,10 @@
     ===================================================== -->
     <section id="skills" class="skills section">
       <div class="section-title">
-        <p class="section-eyebrow">TECHNICAL CAPABILITIES</p>
-        <h2>Skills &amp; Tooling</h2>
+        <p class="section-eyebrow">CORE CAPABILITIES</p>
+        <h2>Technical Skills &amp; Tooling</h2>
         <p>
-          Organized by practical application—clearly distinguishing technologies used in my shipped projects from
-          academic coursework and foundational training.
+          Organized by client value—clearly demonstrating technologies used across my shipped case studies.
         </p>
       </div>
 
@@ -449,13 +427,13 @@
     </section>
 
     <!-- =====================================================
-    6. RESEARCH & ACHIEVEMENTS SECTION
+    6. RESEARCH PUBLICATION SECTION
     ===================================================== -->
     <section id="research" class="research section">
       <div class="section-title">
         <p class="section-eyebrow">RESEARCH &amp; HONORS</p>
-        <h2>Publication &amp; Verified Achievements</h2>
-        <p>Academic mathematical modeling and competition recognition.</p>
+        <h2>Research Publication</h2>
+        <p>Academic mathematical modeling and network dynamics research presented at a national conference.</p>
       </div>
 
       <article class="research-card glass-card">
@@ -471,81 +449,118 @@
           <h3>The Meme Equation: Simulating Virality in the Age of Algorithms</h3>
 
           <p class="research-authors">
-            <strong>Authors:</strong> Sharanya N, Arya Sham Pandit, Khan Saif S &bull; <em>Sri Sairam College of
-              Engineering, Bangalore</em>
+            <strong>Authors:</strong> Sharanya N, Arya Sham Pandit, Khan saif S &bull; <em>Department of Science and Humanities, Sri Sairam College of Engineering, Bangalore</em>
           </p>
 
           <p class="research-summary">
-            Investigates information diffusion and short-lifecycle viral content across social media platforms. Adapts
-            the epidemiological <strong>SIR (Susceptible–Infected–Recovered)</strong> differential equation model to
-            treat network users as interconnected nodes, evaluating sharing velocity (<var>&beta;</var>) against
-            attention decay (<var>&gamma;</var>) across a 10,000-node simulated network.
+            Investigates information diffusion and short-lifecycle viral content across social media platforms. Adapts the epidemiological <strong>SIR (Susceptible–Infected–Recovered)</strong> differential equation model to treat network users as interconnected nodes, evaluating sharing velocity (<var>&beta;</var>) against attention decay (<var>&gamma;</var>) across a 10,000-node simulated community to understand algorithmic reach, influencer amplification, and content decay.
           </p>
 
           <div class="research-tags">
             <span>SIR Differential Equations</span>
             <span>Network Dynamics</span>
             <span>Information Diffusion</span>
+            <span>10,000-Node Simulation</span>
             <span>Algorithmic Virality</span>
           </div>
 
           <div class="research-actions">
-            <a href="assets/research/meme_equation_research_paper.html" class="primary-btn" target="_blank"
+            <a href="assets/research/The_Meme_Equation_Simulating_Virality.pdf" class="primary-btn" target="_blank"
               rel="noopener">
-              <i class="fa-solid fa-book-open" aria-hidden="true"></i>
-              <span>Read Full Paper</span>
+              <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+              <span>Read Research Paper (PDF)</span>
             </a>
 
-            <a href="assets/research/meme_equation_research_paper.html?print=1" class="secondary-btn" target="_blank"
-              rel="noopener">
-              <i class="fa-solid fa-print" aria-hidden="true"></i>
-              <span>Print / Save Paper as PDF</span>
+            <a href="assets/research/The_Meme_Equation_Simulating_Virality.pdf" download="The_Meme_Equation_Simulating_Virality.pdf" class="secondary-btn">
+              <i class="fa-solid fa-download" aria-hidden="true"></i>
+              <span>Download PDF</span>
             </a>
           </div>
         </div>
       </article>
+    </section>
+
+    <!-- =====================================================
+    7. EDUCATION & CERTIFICATIONS SECTION
+    ===================================================== -->
+    <section id="education" class="education section">
+      <div class="section-title">
+        <p class="section-eyebrow">ACADEMIC &amp; CREDENTIALS</p>
+        <h2>Education &amp; Certifications</h2>
+        <p>Engineering degree, verified technical credentials, and competition achievements.</p>
+      </div>
+
+      <div class="edu-cert-grid">
+        <article class="education-card glass-card">
+          <div class="education-icon" aria-hidden="true">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div class="education-content">
+            <span class="timeline-period">2024 – 2028</span>
+            <h4>Bachelor of Engineering (B.E.) in Computer Science Engineering</h4>
+            <h5>Sri Sairam College of Engineering, Bangalore</h5>
+            <p class="education-spec">
+              Specialization: CSE (IoT, Cybersecurity including Blockchain)
+            </p>
+            <p class="education-desc">
+              Strong academic foundation in Data Structures, Object-Oriented Programming, Database Management Systems, Computer Networks, and Secure Systems.
+            </p>
+          </div>
+        </article>
+
+        <div class="certifications-box glass-card">
+          <h4><i class="fa-solid fa-certificate" aria-hidden="true"></i> Verified Certifications &amp; Training</h4>
+          <ul class="cert-list">
+            <li><strong>IBM SkillsBuild:</strong> Generative AI Fundamentals</li>
+            <li><strong>IBM SkillsBuild:</strong> Artificial Intelligence Fundamentals</li>
+            <li><strong>IBM SkillsBuild:</strong> Prompt Engineering</li>
+            <li><strong>NPTEL:</strong> Cloud Computing (Elite Certificate)</li>
+            <li><strong>COMEDKARES:</strong> Technical Innovation &amp; Prototyping Workshop</li>
+          </ul>
+        </div>
+      </div>
 
       <!-- ACHIEVEMENTS SUB-SECTION -->
       <div id="achievements" class="achievements-block">
-        <h3 class="subsection-heading">Recognition &amp; Highlights</h3>
+        <h3 class="subsection-heading">Recognition &amp; Verified Honors</h3>
         <div class="achievement-grid">
           <div class="achievement-card glass-card">
             <i class="fa-solid fa-trophy" aria-hidden="true"></i>
             <h4>IBM AI Hackathon Winner</h4>
-            <p>Recognized for building an applied AI problem-solving prototype during the IBM hackathon.</p>
+            <p>Awarded first place for designing and building an applied AI prototype solving real workflow challenges.</p>
           </div>
 
           <div class="achievement-card glass-card">
             <i class="fa-solid fa-microphone-lines" aria-hidden="true"></i>
             <h4>National Conference Presenter</h4>
-            <p>Selected to present research on mathematical modeling of social media virality.</p>
+            <p>Selected to present mathematical modeling research on social media virality and information diffusion.</p>
+          </div>
+
+          <div class="achievement-card glass-card">
+            <i class="fa-solid fa-award" aria-hidden="true"></i>
+            <h4>Academic Merit Recognition</h4>
+            <p>Recipient of merit-based academic scholarship and 'A' Grade Certificate in Advanced C Programming.</p>
           </div>
 
           <div class="achievement-card glass-card">
             <i class="fa-solid fa-medal" aria-hidden="true"></i>
-            <h4>Merit Scholarship &amp; Academics</h4>
-            <p>Recipient of merit-based academic scholarships and 'A' Grade Certificate in C Programming.</p>
-          </div>
-
-          <div class="achievement-card glass-card">
-            <i class="fa-solid fa-person-running" aria-hidden="true"></i>
-            <h4>District-Level Athlete</h4>
-            <p>Represented at the district level as a competitive Kho-Kho team player.</p>
+            <h4>Browser Battle Finalist</h4>
+            <p>Built the multi-department Apex University portal under competitive web engineering criteria.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- =====================================================
-    7. CONTACT SECTION
+    8. CONTACT SECTION
     ===================================================== -->
     <section id="contact" class="contact section">
       <div class="section-title">
-        <p class="section-eyebrow">START A CONVERSATION</p>
-        <h2>Discuss a Project or Opportunity</h2>
+        <p class="section-eyebrow">START A PROJECT</p>
+        <h2>Have a project in mind? Let's build it.</h2>
         <p>
-          Need a responsive business website, a full-stack web application, or UI/UX design support? Reach out directly
-          by email or send your project brief below.
+          Whether you need a responsive business website, a custom full-stack web application, or UI/UX design support,
+          reach out directly by email or submit your project details below.
         </p>
       </div>
 

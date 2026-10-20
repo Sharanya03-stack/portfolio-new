@@ -17,6 +17,10 @@
     gap: 32px;
   }
 
+  .services-full-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .about-container {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -59,9 +63,9 @@
     gap: 4px;
     padding: 14px;
     border-radius: 14px;
-    background-color: var(--surface-solid);
-    border: 1px solid var(--border);
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.95);
+    background-color: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    box-shadow: 0 20px 44px rgba(15, 23, 42, 0.18);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -70,10 +74,11 @@
     z-index: 1050;
   }
 
-  body.light .nav-links,
-  html[data-theme="light"] body .nav-links {
-    background-color: #ffffff;
-    box-shadow: 0 20px 44px rgba(15, 23, 42, 0.18);
+  body.dark .nav-links,
+  html[data-theme="dark"] body .nav-links {
+    background-color: var(--surface-solid);
+    border: 1px solid var(--border);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.95);
   }
 
   .nav-links.show {
@@ -117,8 +122,10 @@
   }
 
   /* Grids collapse to 1 column */
+  .services-full-grid,
   .projects-grid,
   .skills-grid,
+  .edu-cert-grid,
   .exp-edu-grid,
   .contact-container {
     grid-template-columns: 1fr;
@@ -285,6 +292,7 @@
 
   .about-content,
   .about-sidebar,
+  .service-card,
   .timeline-content,
   .education-card,
   .certifications-box,

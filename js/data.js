@@ -1,24 +1,100 @@
 /**
- * Portfolio Data — Verified projects, skills, experience, education & research for Sharanya N
+ * Portfolio Data — Curated projects, skills, experience, education & research for Sharanya N
+ * Positioned for freelance client acquisition and practical web engineering.
  */
 "use strict";
 
 const portfolioData = {
   name: "Sharanya N",
-  role: "Freelance Web & Full-Stack Developer",
-  tagline: "I build websites and web applications that solve real business problems.",
+  role: "Freelance Web Developer & UI/UX Designer",
+  tagline: "I design and build websites that help businesses grow.",
   aboutShort:
-    "Full-stack web developer and UI/UX designer in Bangalore building responsive business websites, marketplace platforms, dashboards, and practical AI integrations.",
+    "I build responsive business websites, full-stack web applications, and intuitive dashboards that turn ideas into practical digital products. I combine thoughtful UI/UX design with clean, maintainable code.",
   aboutLong:
-    "I design and engineer fast, accessible websites and web applications for businesses, startups, and student organizations. My workflow pairs Figma UI/UX prototyping with clean frontend and full-stack implementation in React, Next.js, Python/FastAPI, and modern HTML/CSS/JavaScript.",
+    "I work on practical web development projects, helping turn requirements into responsive interfaces and functional applications. My experience includes building project features, integrating backend services, refining user experiences, and improving existing software.",
   profileImage: "assets/images/profile.jpg",
   resume: "assets/resume/resume_3.pdf",
+  researchPdf: "assets/research/The_Meme_Equation_Simulating_Virality.pdf",
   phone: "+91-6362813866",
   phoneTel: "+916362813866",
   email: "sharureddy13@gmail.com",
   github: "https://github.com/Sharanya03-stack",
   linkedin: "https://www.linkedin.com/in/sharanya-n-203b7932a",
   location: "Bangalore, India",
+
+  services: [
+    {
+      id: "business-websites",
+      title: "Business Websites & Landing Pages",
+      icon: "fa-solid fa-display",
+      description:
+        "Fast, mobile-first websites with clean typography, clear information architecture, and lead capture workflows that build client credibility and drive inquiries.",
+      deliverables: ["Responsive Multi-Page Sites", "Interactive Digital Menus", "Lead Capture & Booking Forms", "SEO & Speed Optimization"],
+    },
+    {
+      id: "fullstack-apps",
+      title: "Full-Stack Web Applications",
+      icon: "fa-solid fa-layer-group",
+      description:
+        "Custom web applications engineered with Next.js, React, and FastAPI, featuring multi-criteria search, dynamic state management, and reliable API integrations.",
+      deliverables: ["Product Discovery & Catalogs", "Interactive Shopping Carts", "RESTful API Integration", "Authentication & Relational DBs"],
+    },
+    {
+      id: "dashboards",
+      title: "Dashboards & Admin Panels",
+      icon: "fa-solid fa-chart-line",
+      description:
+        "Data-focused administrative dashboards and telemetry consoles that organize complex datasets into intuitive charts, real-time metrics, and manageable workflows.",
+      deliverables: ["Operational Metric Cards", "Interactive Charting (Recharts)", "Real-Time Activity Logs", "Clean Data Tables & Filters"],
+    },
+    {
+      id: "uiux-design",
+      title: "UI/UX Design & Prototyping",
+      icon: "fa-solid fa-pen-ruler",
+      description:
+        "User-centered design systems, structured wireframes, and interactive Figma prototypes that validate application flows and layout before writing code.",
+      deliverables: ["Figma Wireframes & User Flows", "Component Design Systems", "Interactive Clickable Prototypes", "Usability & Layout Audits"],
+    },
+    {
+      id: "practical-ai",
+      title: "Practical AI & API Integrations",
+      icon: "fa-solid fa-brain",
+      description:
+        "Purposeful integrations of machine learning models, telemetry classification, and third-party APIs that solve real domain problems without unnecessary complexity.",
+      deliverables: ["Scikit-learn / ML Pipelines", "Anomaly Detection Telemetry", "Third-Party REST Integrations", "FastAPI Service Endpoints"],
+    },
+  ],
+
+  freelanceExperience: [
+    {
+      role: "Freelance Web Developer & UI/UX Designer",
+      organization: "Independent Practice",
+      period: "2025 – Present",
+      location: "Bangalore, India & Remote",
+      description:
+        "I work on practical web development projects, helping turn client and stakeholder requirements into responsive interfaces and functional applications. My experience includes building project features, integrating backend services, refining user experiences, and deploying production-ready software.",
+      highlights: [
+        "Delivered full-stack applications and business websites including NexBasket (e-commerce), House Hunt (real estate platform), and Zero Degree (hospitality website).",
+        "Engineered end-to-end component systems in Next.js, React, TypeScript, and Tailwind CSS with strict attention to mobile responsiveness and web accessibility.",
+        "Integrated Python/FastAPI backend APIs and telemetry services for data-driven dashboards like Spy-fi.",
+      ],
+      tags: ["Next.js", "React", "TypeScript", "Python / FastAPI", "Figma", "Tailwind CSS", "Client Delivery"],
+    },
+    {
+      role: "UI/UX Design Intern",
+      organization: "Edufyi Tech Solutions",
+      period: "Aug 2025 – Oct 2025",
+      location: "Bangalore, India",
+      description:
+        "Designed responsive user interfaces for web and mobile products. Built structured wireframes, component libraries, and interactive Figma prototypes that clarified navigation hierarchy and improved user task completion.",
+      highlights: [
+        "Created user flows, journey maps, and high-fidelity screen mockups aligned with product requirements.",
+        "Maintained component design libraries for consistent cross-device UI implementation.",
+        "Collaborated with developers and project leads during sprint design reviews.",
+      ],
+      tags: ["Figma", "UI/UX Design", "Component Systems", "Wireframing", "Interactive Prototyping"],
+    },
+  ],
 
   education: {
     institution: "Sri Sairam College of Engineering, Bangalore",
@@ -27,91 +103,93 @@ const portfolioData = {
     period: "2024 – 2028",
   },
 
-  experience: {
-    role: "UI/UX Design Intern",
-    company: "Edufyi Tech Solutions",
-    period: "Aug 2025 – Oct 2025",
-    description:
-      "Designed responsive web and mobile interfaces for client products. Created structured wireframes, component libraries, and interactive Figma prototypes to improve navigation clarity and task completion.",
-    tags: ["Figma", "UI Design", "UX Research", "Responsive Layouts", "Interactive Prototyping"],
-  },
+  certifications: [
+    { title: "IBM SkillsBuild: Generative AI Fundamentals", issuer: "IBM" },
+    { title: "IBM SkillsBuild: Artificial Intelligence Fundamentals", issuer: "IBM" },
+    { title: "IBM SkillsBuild: Prompt Engineering", issuer: "IBM" },
+    { title: "NPTEL: Cloud Computing (Elite Certificate)", issuer: "NPTEL / IIT" },
+    { title: "COMEDKARES: Technical Innovation Workshop", issuer: "COMEDKARES" },
+  ],
+
+  achievements: [
+    {
+      title: "IBM AI Hackathon Winner",
+      description: "Awarded first place for designing and building an applied AI prototype solving real workflow challenges.",
+      icon: "fa-solid fa-trophy",
+    },
+    {
+      title: "Conference Research Presenter",
+      description: "Selected to present mathematical modeling research on information diffusion in algorithmic networks.",
+      icon: "fa-solid fa-microphone-lines",
+    },
+    {
+      title: "Academic Merit Recognition",
+      description: "Recipient of merit-based academic scholarship and 'A' Grade in Advanced C Programming.",
+      icon: "fa-solid fa-award",
+    },
+    {
+      title: "Browser Battle Finalist",
+      description: "Built the multi-department Apex University portal from scratch in competition setting.",
+      icon: "fa-solid fa-medal",
+    },
+  ],
 
   research: {
     title: "The Meme Equation: Simulating Virality in the Age of Algorithms",
-    authors: "Sharanya N, Arya Sham Pandit, Khan Saif S",
-    department: "Department of Science and Humanities, Sri Sairam College of Engineering",
-    presentation: "Presented at National-Level Conference",
-    abstract:
-      "Adapts the epidemiological SIR (Susceptible–Infected–Recovered) differential equation model to simulate how digital content spreads, peaks, and decays across algorithmic social networks.",
+    authors: "Sharanya N, Arya Sham Pandit, Khan saif S",
+    institution: "Department of Science and Humanities, Sri Sairam College of Engineering",
+    emails: "sce24ic034@sairamtap.edu.in, sce24ic041@sairamtap.edu.in, sce24am054@sairamtap.edu.in",
+    summary:
+      "Applies the epidemiological SIR (Susceptible–Infected–Recovered) mathematical framework to simulate how viral internet content spreads across algorithmic social networks. Evaluates transmission rate (β) against attention decay (γ) in a 10,000-user community, demonstrating how recommendation algorithms, influencer reach, and user fatigue determine whether content peaks or vanishes.",
+    keywords: ["Meme Virality", "SIR Epidemiological Model", "Social Networks", "Information Diffusion", "Differential Equations"],
+    pdfUrl: "assets/research/The_Meme_Equation_Simulating_Virality.pdf",
     readerUrl: "assets/research/meme_equation_research_paper.html",
-    printUrl: "assets/research/meme_equation_research_paper.html?print=1",
   },
 
   skills: [
     {
-      category: "Frontend & Web Development",
-      tier: "Used in Shipped Projects",
+      category: "Frontend & UI/UX Design",
       icon: "fa-solid fa-laptop-code",
-      description: "Core technologies used to build and deploy my live web applications and responsive interfaces.",
+      description: "Modern frontend frameworks, responsive UI architecture, and component-driven user interfaces.",
       items: [
-        "HTML5",
-        "CSS3",
+        "HTML5 & Semantic CSS3",
         "JavaScript (ES6+)",
+        "TypeScript",
         "React.js",
         "Next.js",
         "Tailwind CSS",
         "Responsive Web Design",
+        "Figma (Wireframing & Prototyping)",
       ],
+      relatedProjects: "NexBasket, House Hunt, Zero Degree, Spy-fi, Apex University",
     },
     {
-      category: "Backend, Data & AI Workflows",
-      tier: "Used in Shipped Projects",
+      category: "Backend & API Integration",
       icon: "fa-solid fa-server",
-      description: "Server-side frameworks, databases, and computer vision / AI tools applied in functional prototypes.",
+      description: "Server-side routing, RESTful API architecture, and database integrations for scalable web apps.",
       items: [
         "Python",
         "FastAPI",
-        "Node.js",
-        "Express.js",
-        "REST APIs",
-        "Streamlit",
-        "OpenCV & YOLO",
-        "MongoDB",
-        "MySQL",
+        "RESTful APIs",
+        "PostgreSQL / SQL",
+        "Node.js & Express",
+        "Vercel Deployment",
+        "Git & GitHub Version Control",
       ],
+      relatedProjects: "Spy-fi, NexBasket",
     },
     {
-      category: "UI/UX, Deployment & Tooling",
-      tier: "Used in Daily Workflow",
-      icon: "fa-solid fa-pen-ruler",
-      description: "Design, version control, and cloud hosting platforms used from wireframe to deployment.",
+      category: "Practical AI & Dashboards",
+      icon: "fa-solid fa-chart-line",
+      description: "Data visualization, telemetry tracking, and practical machine learning integration.",
       items: [
-        "Figma",
-        "Wireframing & Prototyping",
-        "Git & GitHub",
-        "Vercel",
-        "GitHub Pages",
-        "Supabase",
-        "Cloudinary",
-        "Linux CLI",
-        "VS Code",
+        "Machine Learning (scikit-learn)",
+        "Interactive Dashboards",
+        "Data Visualization (Recharts / Chart.js)",
+        "Telemetry & Flow Classification",
+        "Explainable AI Interfaces",
       ],
-    },
-    {
-      category: "CS Foundations & Academic Coursework",
-      tier: "Academic & Certified",
-      icon: "fa-solid fa-graduation-cap",
-      description: "Foundational engineering languages and IBM SkillsBuild / NPTEL certified coursework.",
-      items: [
-        "C",
-        "C++",
-        "Java",
-        "Data Structures & OOP",
-        "IBM watsonx.ai & RAG Basics",
-        "Prompt Engineering",
-        "Cloud Computing Fundamentals",
-        "Cybersecurity & IoT Basics",
-      ],
+      relatedProjects: "Spy-fi Security Intelligence Console",
     },
   ],
 
@@ -134,7 +212,7 @@ const portfolioData = {
       description:
         "NexBasket is a responsive hyperlocal grocery web application designed for quick product discovery and budget-conscious cart building. It includes category filtering, recipe kits, an automated 'Smart Swap' savings suggestion workflow, and a streamlined checkout interface.",
       scopeNote:
-        "Frontend & interactive state prototype deployed on Vercel using curated product catalog data and simulated dispatch tracking.",
+        "Interactive frontend prototype deployed on Vercel using curated product catalog data and simulated dispatch tracking.",
       features: [
         "Automated 'Smart Swap' budget comparison suggesting lower-cost alternatives in the cart",
         "Dynamic product catalog with category tabs, instant search, and recipe bundle kits",
@@ -206,35 +284,6 @@ const portfolioData = {
     {
       id: 4,
       featured: true,
-      title: "Vehicle Counter & Flow Analysis",
-      categoryLabel: "AI & Computer Vision Dashboard",
-      subtitle: "Automated Traffic Detection & Telemetry App",
-      period: "Jul 2025 – Aug 2025",
-      image: "assets/images/projects/vehicle_counter.png",
-      category: "ai",
-      problem:
-        "Manual traffic counting from surveillance video is slow and error-prone when analyzing directional lane flow and vehicle crossing counts.",
-      contribution:
-        "Built the Python computer vision processing pipeline using YOLO/OpenCV and created the interactive Streamlit analytics dashboard for video upload and live telemetry visualization.",
-      shortDescription:
-        "Python & Streamlit computer vision dashboard for vehicle detection, multi-object tracking, and directional line-crossing counts.",
-      description:
-        "An applied computer vision web application deployed on Streamlit Cloud. It processes uploaded traffic videos or sample highway streams using YOLO and OpenCV to detect vehicles, track movement across virtual gate lines, and log inbound/outbound traffic counts.",
-      scopeNote:
-        "Live Python Streamlit application running real OpenCV/YOLO inference on uploaded or sample video streams.",
-      features: [
-        "Automated vehicle detection and multi-object tracking on uploaded video files",
-        "Virtual gate line-crossing logic classifying Inbound and Outbound traffic flow",
-        "Live processing telemetry displaying frame rate (FPS) and cumulative crossing counts",
-        "Streamlit dashboard with video playback, event logs, and summary metrics",
-      ],
-      technologies: ["Python", "Streamlit", "OpenCV", "YOLO", "NumPy"],
-      github: "https://github.com/Sharanya03-stack/Vehicle-counter",
-      live: "https://vehicle-counter-q7cek3rvkrvaxnjexnvpyz.streamlit.app/",
-    },
-    {
-      id: 5,
-      featured: true,
       title: "Spy-fi — AI-Based Cyber Threat Detection",
       categoryLabel: "AI & Cybersecurity Platform",
       subtitle: "One-Way Network Threat Detection & SOC Investigation Dashboard",
@@ -270,8 +319,8 @@ const portfolioData = {
       live: "https://spy-fi-liart.vercel.app/",
     },
     {
-      id: 6,
-      featured: false,
+      id: 5,
+      featured: true,
       title: "Browser Battle — Apex University Portal",
       categoryLabel: "Competition Frontend Build",
       subtitle: "Academic & Technical Event Web Portal",
@@ -297,64 +346,6 @@ const portfolioData = {
       technologies: ["HTML5", "CSS3", "JavaScript (ES6+)", "Responsive UI", "Vercel"],
       github: "https://github.com/Sharanya03-stack/browser-battle",
       live: "https://browser-battle-eight.vercel.app",
-    },
-    {
-      id: 7,
-      featured: false,
-      title: "CI/CD Triage AI Agent",
-      categoryLabel: "Developer Tooling Prototype",
-      subtitle: "Pipeline Log Analysis & Failure Categorization Dashboard",
-      period: "May 2025 – Aug 2025",
-      image: "assets/images/projects/cicd_triage.png",
-      category: "ai",
-      problem:
-        "Developers spend significant time scanning lengthy CI/CD build logs to isolate recurring test failures, dependency errors, and timeout issues.",
-      contribution:
-        "Built the FastAPI backend routes and frontend triage dashboard interface supporting log file upload, regex/LLM failure categorization, and incident history tracking.",
-      shortDescription:
-        "DevOps troubleshooting dashboard for ingesting CI/CD build logs, categorizing failure patterns, and reviewing incident history.",
-      description:
-        "An AI-assisted pipeline troubleshooting prototype that ingests CI/CD failure logs, identifies error signatures, routes incidents by severity, and displays diagnostic summaries alongside a simulated token-efficiency ledger.",
-      scopeNote:
-        "Prototype dashboard with local/sample simulation vaults and Python FastAPI log parsing endpoints.",
-      features: [
-        "Drag-and-drop CI/CD log ingestion with pattern-based error categorization",
-        "Quick-test simulation presets for network timeouts and unit test failures",
-        "Incident history panel for comparing recurring build failure signatures",
-        "Clean dark-mode diagnostic interface built with HTML, CSS, JavaScript, and FastAPI",
-      ],
-      technologies: ["Python", "FastAPI", "JavaScript", "HTML5", "CSS3"],
-      github: "https://github.com/Sharanya03-stack/cicd_triage_agent",
-      live: null,
-    },
-    {
-      id: 8,
-      featured: false,
-      title: "Skill Sync",
-      categoryLabel: "Full-Stack Concept & Prototype",
-      subtitle: "Student & Developer Team Matching Interface",
-      period: "Mar 2025 – Apr 2025",
-      image: "assets/images/projects/skillsync.png",
-      category: "web",
-      problem:
-        "Students forming hackathon and capstone teams often lack a structured way to discover peers with complementary frontend, backend, or design skills.",
-      contribution:
-        "Designed the dashboard UI and built the skill-tag filtering and compatibility scoring prototype.",
-      shortDescription:
-        "Collaborative team-formation prototype matching students and developers by complementary technical skills and project roles.",
-      description:
-        "Skill Sync is a team-discovery dashboard concept designed for student hackathons and collaborative software projects. It visualizes candidate skill matrices, role requirements, and compatibility scores to help form balanced project teams.",
-      scopeNote:
-        "UI/UX and full-stack architecture prototype demonstrating skill-matrix visualization and role filtering.",
-      features: [
-        "Developer profile cards with skill matrix visualizations and role tags",
-        "Compatibility scoring view for matching complementary technical skills",
-        "Project workspace listing open team roles and collaboration requests",
-        "Responsive dashboard layout",
-      ],
-      technologies: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
-      github: "https://github.com/Sharanya03-stack/SkillSync",
-      live: null,
     },
   ],
 };

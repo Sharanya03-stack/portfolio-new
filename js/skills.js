@@ -1,6 +1,7 @@
 /* ==========================================================
-   SKILLS.JS — Dynamic rendering of practical skill categories
-   Separates production project experience from academic/certified coursework
+   SKILLS.JS — Dynamic rendering of client-relevant skill categories
+   Organized into Frontend & UI/UX, Backend & Integration, and Practical AI & Dashboards
+   Connects demonstrated skills directly to shipped case studies.
 ========================================================== */
 
 "use strict";
@@ -34,6 +35,14 @@ function renderSkills() {
           )
           .join("")}
       </div>
+      ${
+        cat.relatedProjects
+          ? `<div class="skill-project-ref">
+              <span class="ref-label"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Demonstrated in:</span>
+              <span class="ref-projects">${cat.relatedProjects}</span>
+            </div>`
+          : ""
+      }
     </article>`
     )
     .join("");

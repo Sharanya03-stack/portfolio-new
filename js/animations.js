@@ -85,8 +85,8 @@ function assignRevealClasses() {
     aboutSidebar.classList.add("reveal-right");
   }
 
-  // Service Items: Alternating entrance with stagger
-  document.querySelectorAll(".service-item").forEach((el, index) => {
+  // Service Cards: Alternating entrance with stagger
+  document.querySelectorAll(".service-item, .service-card").forEach((el, index) => {
     const isOdd = index % 2 === 0;
     const dirClass = isOdd ? "reveal-left" : "reveal-right";
     if (!el.classList.contains("reveal-left") && !el.classList.contains("reveal-right")) {
@@ -101,7 +101,26 @@ function assignRevealClasses() {
     }
   });
 
-  // Experience & Education Columns
+  // Timeline Items: Alternating entrance
+  document.querySelectorAll(".timeline-item").forEach((el, index) => {
+    const isOdd = index % 2 === 0;
+    const dirClass = isOdd ? "reveal-left" : "reveal-right";
+    if (!el.classList.contains("reveal-left") && !el.classList.contains("reveal-right")) {
+      el.classList.add(dirClass, isOdd ? "delay-1" : "delay-2");
+    }
+  });
+
+  // Education & Certifications
+  const eduCard = document.querySelector(".education-card");
+  if (eduCard && !eduCard.classList.contains("reveal-left")) {
+    eduCard.classList.add("reveal-left");
+  }
+
+  const certBox = document.querySelector(".certifications-box");
+  if (certBox && !certBox.classList.contains("reveal-right")) {
+    certBox.classList.add("reveal-right");
+  }
+
   const expCol = document.querySelector(".exp-column");
   if (expCol && !expCol.classList.contains("reveal-left")) {
     expCol.classList.add("reveal-left");

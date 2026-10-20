@@ -10,18 +10,18 @@ const modalBody = document.getElementById("modalBody");
 const projectCloseBtn = document.getElementById("modalCloseBtn") || (modal ? modal.querySelector(".close") : null);
 const projectsGrid = document.getElementById("projectsGrid");
 
-let activeFilter = "featured";
+let activeFilter = "all";
 let lastFocusedTrigger = null;
 
 function getFilteredProjects(filter) {
   if (typeof portfolioData === "undefined" || !Array.isArray(portfolioData.projects)) {
     return [];
   }
-  if (filter === "featured") {
-    return portfolioData.projects.filter((p) => p.featured);
+  if (filter === "web") {
+    return portfolioData.projects.filter((p) => p.category === "web");
   }
-  if (filter === "web" || filter === "ai") {
-    return portfolioData.projects.filter((p) => p.category === filter);
+  if (filter === "ai") {
+    return portfolioData.projects.filter((p) => p.category === "ai");
   }
   return portfolioData.projects;
 }
@@ -323,9 +323,9 @@ document.addEventListener("keydown", (e) => {
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     initProjectFilters();
-    renderProjects("featured");
+    renderProjects("all");
   });
 } else {
   initProjectFilters();
-  renderProjects("featured");
+  renderProjects("all");
 }

@@ -41,9 +41,7 @@
   let isLightMode = false;
 
   function checkLightMode() {
-    isLightMode =
-      document.body.classList.contains("light") ||
-      document.documentElement.getAttribute("data-theme") === "light";
+    isLightMode = document.documentElement.getAttribute("data-theme") !== "dark";
   }
 
   class Particle {
