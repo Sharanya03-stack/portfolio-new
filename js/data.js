@@ -142,23 +142,23 @@ const portfolioData = {
       shortTitle: "Browser Battle",
       tagline: "Corporate-Academic Web Portal & Interactive Event Platform",
       category: "Frontend Architecture & Motion",
-      image: "assets/images/project1.jpeg.jpg.jpeg",
+      image: "assets/images/project_browserbattle.jpg",
       shortDescription:
-        "Multi-page responsive university portal engineered with GSAP ScrollTrigger timeline reveals, dynamic Chart.js placement dashboards, and tailored SaaS branding.",
+        "Multi-page responsive university portal engineered with complex JavaScript animations, dynamic Chart.js placement dashboards, and tailored corporate-academic branding.",
       description:
-        "Designed and engineered a multi-page responsive web portal featuring a contemporary SaaS-inspired layout and corporate-academic branding. Implemented complex JavaScript animation sequences using GSAP, including ScrollTrigger clip-path reveals, smooth staggered load timelines, and an interactive custom cursor. Integrated dynamic data visualization components using Chart.js to display multi-year placement statistics and interactive recruitment tickers.",
+        "Designed and engineered a multi-page responsive web portal featuring a contemporary SaaS-inspired layout and corporate-academic branding. Implemented JavaScript animation sequences, clip-path reveals, smooth load timelines, and an interactive custom cursor. Integrated dynamic data visualization components using Chart.js to display multi-year placement statistics and interactive recruitment tickers.",
       features: [
-        "GSAP ScrollTrigger timeline animations with hardware-accelerated transitions",
+        "ScrollTrigger timeline animations with hardware-accelerated transitions",
         "Dynamic Chart.js data visualization for placement statistics and performance trends",
         "Multi-page responsive layout engineered with Tailwind CSS and semantic HTML5",
         "Google Translate integration and accessibility considerations across breakpoints",
         "Interactive navigation systems with responsive mobile drawer architecture",
       ],
-      technologies: ["JavaScript (ES6+)", "GSAP", "Tailwind CSS", "HTML5", "Chart.js", "AOS"],
-      challenges: "Balancing rich GSAP scroll animations with smooth 60fps performance across mobile and lower-spec hardware.",
-      solution: "Employed ScrollTrigger with debounced timelines, deferred non-critical assets, and responsive media breakpoints.",
+      technologies: ["JavaScript (ES6+)", "Tailwind CSS", "HTML5", "Chart.js", "AOS"],
+      challenges: "Balancing rich animations with smooth 60fps performance across mobile and lower-spec hardware.",
+      solution: "Employed optimized timelines, deferred non-critical assets, and responsive media breakpoints.",
       github: "https://github.com/Sharanya03-stack/browser-battle",
-      live: null, // No separate deployment; button points to GitHub repository
+      live: null, // Note: Former deployment URL returned 404; awaiting user's active deployment link
     },
     {
       id: "02",
@@ -167,7 +167,7 @@ const portfolioData = {
       shortTitle: "CI/CD Triage Agent",
       tagline: "AI-Powered DevOps Pipeline Diagnosis & Automated Recovery Assistant",
       category: "AI Engineering & Backend Services",
-      image: "assets/images/project2.jpeg.jpg.jpeg",
+      image: "assets/images/project_cicd_triage.jpg",
       shortDescription:
         "Automated CI/CD pipeline failure diagnosis system with asynchronous log parsing, root-cause categorization, and interactive chatbot assistance.",
       description:
@@ -183,7 +183,7 @@ const portfolioData = {
       challenges: "Ingesting diverse, verbose CI/CD log dumps without blocking backend response times.",
       solution: "Engineered modular FastAPI asynchronous endpoints with regex-optimized token stream extractors.",
       github: "https://github.com/Sharanya03-stack/AI-agent",
-      live: null,
+      live: "https://ai-agent-lovat-eight.vercel.app", // Verified live deployment (HTTP 200)
     },
     {
       id: "03",
@@ -192,7 +192,7 @@ const portfolioData = {
       shortTitle: "Zero Degree Cafe",
       tagline: "High-End Hospitality Web Experience & Reservation Platform",
       category: "Interface Design & Luxury Branding",
-      image: "assets/images/project3.jpeg.jpg.jpeg",
+      image: "assets/images/project_zerodegree.jpg",
       shortDescription:
         "High-performance hospitality web interface featuring an ultra-dark editorial hero, dynamic menu category filtering, and modal table reservations.",
       description:
@@ -208,7 +208,7 @@ const portfolioData = {
       challenges: "Creating an atmospheric luxury look and feel without compromising page load speeds or text readability.",
       solution: "Used layered SVG accents, modern CSS variables for lighting contrast, and optimized asset delivery.",
       github: "https://github.com/Sharanya03-stack/zero-degree",
-      live: null,
+      live: null, // Note: Source code in repo; awaiting active public deployment URL
     },
     {
       id: "04",
@@ -217,7 +217,7 @@ const portfolioData = {
       shortTitle: "House Hunt",
       tagline: "Full-Stack Property Rental Platform with Role-Based Authentication",
       category: "Full-Stack Application & Cloud Persistence",
-      image: "assets/images/project4.jpeg.jpg.jpeg",
+      image: "assets/images/project_househunt.jpg",
       shortDescription:
         "Comprehensive rental marketplace with Express/JWT authentication, Supabase PostgreSQL persistence, Cloudinary asset uploads, and React state management.",
       description:
@@ -233,7 +233,7 @@ const portfolioData = {
       challenges: "Managing complex property filter states and synchronous media uploads across distributed services.",
       solution: "Implemented modular REST controllers, Axios request interceptors, and optimistic UI updates.",
       github: "https://github.com/Sharanya03-stack/house-hunt1.0",
-      live: null,
+      live: "https://house-hunt1-0.vercel.app", // Verified live deployment (HTTP 200)
     },
     {
       id: "05",
@@ -242,7 +242,7 @@ const portfolioData = {
       shortTitle: "Skill Sync",
       tagline: "Career Readiness & Curriculum Skill-Gap Analysis Platform",
       category: "Product Design & Algorithm Engineering",
-      image: "assets/images/project5.jpeg.jpg.jpeg",
+      image: "assets/images/project_skillsync.jpg",
       shortDescription:
         "Student industry-readiness platform providing automated skill-gap analysis, curriculum mapping, and personalized technology learning roadmaps.",
       description:
@@ -258,7 +258,7 @@ const portfolioData = {
       challenges: "Designing an intuitive, non-intimidating visual experience for complex skill-gap matrices.",
       solution: "Built clean card components, clear step-by-step roadmaps, and prioritized essential metrics.",
       github: "https://github.com/Sharanya03-stack",
-      live: null,
+      live: null, // Note: Source code in repo; awaiting active public deployment URL
     },
   ],
 };

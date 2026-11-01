@@ -1,61 +1,22 @@
 /**
- * Animation Engine & Smooth Vertical Scroll Architecture (Refined)
- * Lenis Smooth Scroll synchronized with GSAP ScrollTrigger for gentle section reveals.
- * Zero horizontal pinning, smooth anchor navigation, and top scroll progress indicator.
+ * Animation Engine & Reliable Native Scroll Architecture
+ * Native vertical scrolling with CSS smooth behavior and gentle GSAP ScrollTrigger reveals.
+ * Zero scroll-jacking, zero wheel/touch blocking, fully accessible.
  */
 
 "use strict";
 
 (function () {
-  let lenisInstance = null;
   const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // 1. Lenis Smooth Scroll Setup
-  function initLenis() {
-    if (isReducedMotion || typeof Lenis === "undefined") return;
-
-    try {
-      lenisInstance = new Lenis({
-        duration: 1.05,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: "vertical",
-        gestureOrientation: "vertical",
-        smoothWheel: true,
-        wheelMultiplier: 0.9,
-        touchMultiplier: 1.2,
-      });
-
-      // Synchronize Lenis with GSAP ScrollTrigger (Single Unified Ticker)
-      if (typeof ScrollTrigger !== "undefined" && typeof gsap !== "undefined") {
-        lenisInstance.on("scroll", () => {
-          ScrollTrigger.update();
-        });
-
-        gsap.ticker.add((time) => {
-          lenisInstance.raf(time * 1000);
-        });
-
-        gsap.ticker.lagSmoothing(0);
-      } else {
-        function raf(time) {
-          lenisInstance.raf(time);
-          requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-      }
-    } catch (err) {
-      console.warn("Lenis initialization notice:", err);
-    }
-  }
-
-  // 2. Top Scroll Progress Indicator & Header Scroll State
+  // 1. Top Scroll Progress Indicator & Header Scroll State
   function initScrollTracking() {
     const progressBar = document.getElementById("scrollProgressBar");
     const header = document.querySelector(".site-header");
     const backToTopBtn = document.getElementById("backToTopBtn");
 
     function onScrollUpdate() {
-      const scrollY = window.scrollY;
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
 
       // Update progress bar
@@ -75,7 +36,7 @@
 
       // Back to top button visibility
       if (backToTopBtn) {
-        if (scrollY > 500) {
+        if (scrollY > 400) {
           backToTopBtn.classList.add("visible");
         } else {
           backToTopBtn.classList.remove("visible");
@@ -86,17 +47,14 @@
     window.addEventListener("scroll", onScrollUpdate, { passive: true });
     onScrollUpdate(); // Initial check
 
+    // Back to Top trigger
     if (backToTopBtn) {
       backToTopBtn.addEventListener("click", () => {
-        if (lenisInstance) {
-          lenisInstance.scrollTo(0, { duration: 1.1 });
-        } else {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
       });
     }
 
-    // Smooth Anchor Navigation
+    // Native Smooth Anchor Navigation with Header Offset
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
       anchor.addEventListener("click", (e) => {
         const href = anchor.getAttribute("href");
@@ -106,7 +64,7 @@
         if (target) {
           e.preventDefault();
 
-          // Close mobile drawer if open
+          // Close mobile menu if open
           const mobileMenu = document.getElementById("navMenu");
           const menuToggle = document.getElementById("mobileMenuToggle");
           if (mobileMenu && mobileMenu.classList.contains("open")) {
@@ -114,18 +72,20 @@
             if (menuToggle) menuToggle.classList.remove("active");
           }
 
-          if (lenisInstance) {
-            lenisInstance.scrollTo(target, { offset: -65, duration: 1.1 });
-          } else {
-            const top = target.getBoundingClientRect().top + window.scrollY - 65;
-            window.scrollTo({ top, behavior: "smooth" });
-          }
+          const headerOffset = 68;
+          const elementPosition = target.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: isReducedMotion ? "auto" : "smooth",
+          });
         }
       });
     });
   }
 
-  // 3. Gentle Section Entrance Reveals (GSAP ScrollTrigger, No Pinning)
+  // 2. Gentle Section Entrance Reveals (GSAP ScrollTrigger, No Pinning, No Hijacking)
   function initSectionReveals() {
     if (isReducedMotion || typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
 
@@ -135,11 +95,11 @@
     sections.forEach((sec) => {
       gsap.fromTo(
         sec,
-        { opacity: 0, y: 22 },
+        { opacity: 0, y: 20 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.65,
+          duration: 0.6,
           ease: "power2.out",
           scrollTrigger: {
             trigger: sec,
@@ -156,7 +116,7 @@
     });
   }
 
-  // 4. Mobile Menu Navigation
+  // 3. Mobile Menu Navigation
   function initMobileMenu() {
     const toggle = document.getElementById("mobileMenuToggle");
     const menu = document.getElementById("navMenu");
@@ -185,9 +145,8 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    initLenis();
     initScrollTracking();
-    setTimeout(initSectionReveals, 120);
+    setTimeout(initSectionReveals, 100);
     initMobileMenu();
   });
 })();
