@@ -1,7 +1,7 @@
 /**
- * Animation Engine & Scroll Architecture
- * Coordinates Lenis Smooth Scroll with GSAP ScrollTrigger for pinned horizontal card sequence.
- * Features mobile touch-scroll fallback, HUD progress updates, and reduced-motion safety.
+ * Animation Engine & Smooth Vertical Scroll Architecture (Refined)
+ * Lenis Smooth Scroll synchronized with GSAP ScrollTrigger for gentle section reveals.
+ * Zero horizontal pinning, smooth anchor navigation, and top scroll progress indicator.
  */
 
 "use strict";
@@ -10,24 +10,26 @@
   let lenisInstance = null;
   const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // 1. Lenis Smooth Scrolling Initialization
+  // 1. Lenis Smooth Scroll Setup
   function initLenis() {
     if (isReducedMotion || typeof Lenis === "undefined") return;
 
     try {
       lenisInstance = new Lenis({
-        duration: 1.15,
+        duration: 1.05,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         orientation: "vertical",
         gestureOrientation: "vertical",
         smoothWheel: true,
-        wheelMultiplier: 0.95,
-        touchMultiplier: 1.5,
+        wheelMultiplier: 0.9,
+        touchMultiplier: 1.2,
       });
 
-      // Synchronize Lenis with GSAP ScrollTrigger (No competing scroll systems!)
+      // Synchronize Lenis with GSAP ScrollTrigger (Single Unified Ticker)
       if (typeof ScrollTrigger !== "undefined" && typeof gsap !== "undefined") {
-        lenisInstance.on("scroll", ScrollTrigger.update);
+        lenisInstance.on("scroll", () => {
+          ScrollTrigger.update();
+        });
 
         gsap.ticker.add((time) => {
           lenisInstance.raf(time * 1000);
@@ -42,139 +44,59 @@
         requestAnimationFrame(raf);
       }
     } catch (err) {
-      console.warn("Lenis initialization error:", err);
+      console.warn("Lenis initialization notice:", err);
     }
   }
 
-  // 2. GSAP Pinned Horizontal Project Showcase
-  function initHorizontalShowcase() {
-    if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
-      console.warn("GSAP / ScrollTrigger not loaded. Using fallback.");
-      return;
-    }
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const section = document.getElementById("projects");
-    const track = document.getElementById("projectHorizontalTrack");
-    const hudCounter = document.getElementById("hudCounter");
-    const hudFill = document.getElementById("hudProgressFill");
-
-    if (!section || !track) return;
-
-    // Use gsap.matchMedia for clean desktop pinning vs mobile touch scroll
-    const mm = gsap.matchMedia();
-
-    // DESKTOP: >= 901px
-    mm.add("(min-width: 901px)", () => {
-      if (isReducedMotion) return;
-
-      // Dynamically calculate horizontal distance based on actual card widths + gaps
-      const getScrollDistance = () => {
-        return Math.max(0, track.scrollWidth - window.innerWidth + 120);
-      };
-
-      const horizontalTween = gsap.to(track, {
-        x: () => -getScrollDistance(),
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          pin: true,
-          scrub: 0.8,
-          start: "top top",
-          end: () => `+=${getScrollDistance()}`,
-          invalidateOnRefresh: true,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            const progress = self.progress; // 0 to 1
-            if (hudFill) {
-              hudFill.style.width = `${Math.min(100, Math.max(15, progress * 100))}%`;
-            }
-
-            // Update current active project index in HUD
-            const total = (portfolioData && portfolioData.projects) ? portfolioData.projects.length : 5;
-            const currentIndex = Math.min(total, Math.max(1, Math.floor(progress * total) + 1));
-            if (hudCounter) {
-              hudCounter.textContent = `0${currentIndex} / 0${total}`;
-            }
-          },
-        },
-      });
-
-      return () => {
-        horizontalTween.kill();
-      };
-    });
-
-    // MOBILE / TABLET: <= 900px
-    // Natural touch-based horizontal scrolling with CSS scroll snap (No desktop pinning forced!)
-    mm.add("(max-width: 900px)", () => {
-      const scrollWrapper = document.querySelector(".project-horizontal-wrapper");
-      if (scrollWrapper && hudFill && hudCounter) {
-        scrollWrapper.addEventListener("scroll", () => {
-          const maxScroll = scrollWrapper.scrollWidth - scrollWrapper.clientWidth;
-          if (maxScroll <= 0) return;
-          const progress = scrollWrapper.scrollLeft / maxScroll;
-          hudFill.style.width = `${Math.min(100, Math.max(15, progress * 100))}%`;
-
-          const total = (portfolioData && portfolioData.projects) ? portfolioData.projects.length : 5;
-          const currentIndex = Math.min(total, Math.max(1, Math.round(progress * (total - 1)) + 1));
-          hudCounter.textContent = `0${currentIndex} / 0${total}`;
-        }, { passive: true });
-      }
-    });
-
-    // Refresh ScrollTrigger after all assets and fonts finish loading
-    window.addEventListener("load", () => {
-      ScrollTrigger.refresh();
-    });
-
-    // Debounced window resize handler
-    let resizeTimer;
-    window.addEventListener("resize", () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 250);
-    });
-  }
-
-  // 3. Header Scroll States & Back-To-Top Button
-  function initHeaderAndFloatingActions() {
+  // 2. Top Scroll Progress Indicator & Header Scroll State
+  function initScrollTracking() {
+    const progressBar = document.getElementById("scrollProgressBar");
     const header = document.querySelector(".site-header");
     const backToTopBtn = document.getElementById("backToTopBtn");
 
-    window.addEventListener("scroll", () => {
-      const y = window.scrollY;
+    function onScrollUpdate() {
+      const scrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
 
+      // Update progress bar
+      if (progressBar && docHeight > 0) {
+        const progress = Math.min(100, Math.max(0, (scrollY / docHeight) * 100));
+        progressBar.style.width = `${progress}%`;
+      }
+
+      // Header blur styling
       if (header) {
-        if (y > 40) {
+        if (scrollY > 30) {
           header.classList.add("scrolled");
         } else {
           header.classList.remove("scrolled");
         }
       }
 
+      // Back to top button visibility
       if (backToTopBtn) {
-        if (y > 600) {
+        if (scrollY > 500) {
           backToTopBtn.classList.add("visible");
         } else {
           backToTopBtn.classList.remove("visible");
         }
       }
-    }, { passive: true });
+    }
+
+    window.addEventListener("scroll", onScrollUpdate, { passive: true });
+    onScrollUpdate(); // Initial check
 
     if (backToTopBtn) {
       backToTopBtn.addEventListener("click", () => {
         if (lenisInstance) {
-          lenisInstance.scrollTo(0, { duration: 1.2 });
+          lenisInstance.scrollTo(0, { duration: 1.1 });
         } else {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
       });
     }
 
-    // Smooth Anchor Link Handling with Lenis Integration
+    // Smooth Anchor Navigation
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
       anchor.addEventListener("click", (e) => {
         const href = anchor.getAttribute("href");
@@ -184,7 +106,7 @@
         if (target) {
           e.preventDefault();
 
-          // Close mobile menu if open
+          // Close mobile drawer if open
           const mobileMenu = document.getElementById("navMenu");
           const menuToggle = document.getElementById("mobileMenuToggle");
           if (mobileMenu && mobileMenu.classList.contains("open")) {
@@ -193,9 +115,9 @@
           }
 
           if (lenisInstance) {
-            lenisInstance.scrollTo(target, { offset: -70 });
+            lenisInstance.scrollTo(target, { offset: -65, duration: 1.1 });
           } else {
-            const top = target.getBoundingClientRect().top + window.scrollY - 70;
+            const top = target.getBoundingClientRect().top + window.scrollY - 65;
             window.scrollTo({ top, behavior: "smooth" });
           }
         }
@@ -203,7 +125,38 @@
     });
   }
 
-  // 4. Mobile Menu Toggle
+  // 3. Gentle Section Entrance Reveals (GSAP ScrollTrigger, No Pinning)
+  function initSectionReveals() {
+    if (isReducedMotion || typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const sections = document.querySelectorAll(".reveal-section");
+    sections.forEach((sec) => {
+      gsap.fromTo(
+        sec,
+        { opacity: 0, y: 22 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.65,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sec,
+            start: "top 88%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    });
+
+    // Refresh after DOM content & images stabilize
+    window.addEventListener("load", () => {
+      ScrollTrigger.refresh();
+    });
+  }
+
+  // 4. Mobile Menu Navigation
   function initMobileMenu() {
     const toggle = document.getElementById("mobileMenuToggle");
     const menu = document.getElementById("navMenu");
@@ -222,7 +175,6 @@
       }
     });
 
-    // Close on outside click
     document.addEventListener("click", (e) => {
       if (menu.classList.contains("open") && !menu.contains(e.target) && !toggle.contains(e.target)) {
         menu.classList.remove("open");
@@ -232,14 +184,10 @@
     });
   }
 
-  // Initialize all after DOM is ready
   document.addEventListener("DOMContentLoaded", () => {
     initLenis();
-    // Allow projects to render into DOM first, then initialize GSAP pin
-    setTimeout(() => {
-      initHorizontalShowcase();
-    }, 100);
-    initHeaderAndFloatingActions();
+    initScrollTracking();
+    setTimeout(initSectionReveals, 120);
     initMobileMenu();
   });
 })();
