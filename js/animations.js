@@ -1,241 +1,245 @@
-/* ==========================================================================
-   ANIMATIONS ENGINE — SHARANYA N
-   Restrained, Directional Scroll Reveals (Left, Right, Fade-Up, Staggered)
-   Respects prefers-reduced-motion, supports anchor links, and progressive fallback
-   ========================================================================== */
+/**
+ * Animation Engine & Scroll Architecture
+ * Coordinates Lenis Smooth Scroll with GSAP ScrollTrigger for pinned horizontal card sequence.
+ * Features mobile touch-scroll fallback, HUD progress updates, and reduced-motion safety.
+ */
 
 "use strict";
 
-const prefersReducedMotion =
-  window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+(function () {
+  let lenisInstance = null;
+  const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-let revealObserver = null;
+  // 1. Lenis Smooth Scrolling Initialization
+  function initLenis() {
+    if (isReducedMotion || typeof Lenis === "undefined") return;
 
-function observeElements(elements) {
-  if (!elements || !elements.length) return;
+    try {
+      lenisInstance = new Lenis({
+        duration: 1.15,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: "vertical",
+        gestureOrientation: "vertical",
+        smoothWheel: true,
+        wheelMultiplier: 0.95,
+        touchMultiplier: 1.5,
+      });
 
-  if (prefersReducedMotion || typeof IntersectionObserver === "undefined") {
-    elements.forEach((item) => item.classList.add("active"));
-    return;
-  }
+      // Synchronize Lenis with GSAP ScrollTrigger (No competing scroll systems!)
+      if (typeof ScrollTrigger !== "undefined" && typeof gsap !== "undefined") {
+        lenisInstance.on("scroll", ScrollTrigger.update);
 
-  if (!revealObserver) {
-    revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("active");
-            revealObserver.unobserve(entry.target);
-          }
+        gsap.ticker.add((time) => {
+          lenisInstance.raf(time * 1000);
         });
-      },
-      { threshold: 0.08, rootMargin: "0px 0px -36px 0px" }
-    );
+
+        gsap.ticker.lagSmoothing(0);
+      } else {
+        function raf(time) {
+          lenisInstance.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+      }
+    } catch (err) {
+      console.warn("Lenis initialization error:", err);
+    }
   }
 
-  elements.forEach((item) => {
-    // If element is already active, no need to re-observe
-    if (item.classList.contains("active")) return;
-
-    // Check if element is already within the visible viewport on load
-    const rect = item.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      item.classList.add("active");
-    } else {
-      revealObserver.observe(item);
+  // 2. GSAP Pinned Horizontal Project Showcase
+  function initHorizontalShowcase() {
+    if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
+      console.warn("GSAP / ScrollTrigger not loaded. Using fallback.");
+      return;
     }
-  });
-}
 
-function assignRevealClasses() {
-  if (prefersReducedMotion || typeof IntersectionObserver === "undefined") {
-    document.querySelectorAll(".reveal-up, .reveal-left, .reveal-right").forEach((el) => {
-      el.classList.add("active");
+    gsap.registerPlugin(ScrollTrigger);
+
+    const section = document.getElementById("projects");
+    const track = document.getElementById("projectHorizontalTrack");
+    const hudCounter = document.getElementById("hudCounter");
+    const hudFill = document.getElementById("hudProgressFill");
+
+    if (!section || !track) return;
+
+    // Use gsap.matchMedia for clean desktop pinning vs mobile touch scroll
+    const mm = gsap.matchMedia();
+
+    // DESKTOP: >= 901px
+    mm.add("(min-width: 901px)", () => {
+      if (isReducedMotion) return;
+
+      // Dynamically calculate horizontal distance based on actual card widths + gaps
+      const getScrollDistance = () => {
+        return Math.max(0, track.scrollWidth - window.innerWidth + 120);
+      };
+
+      const horizontalTween = gsap.to(track, {
+        x: () => -getScrollDistance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          pin: true,
+          scrub: 0.8,
+          start: "top top",
+          end: () => `+=${getScrollDistance()}`,
+          invalidateOnRefresh: true,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            const progress = self.progress; // 0 to 1
+            if (hudFill) {
+              hudFill.style.width = `${Math.min(100, Math.max(15, progress * 100))}%`;
+            }
+
+            // Update current active project index in HUD
+            const total = (portfolioData && portfolioData.projects) ? portfolioData.projects.length : 5;
+            const currentIndex = Math.min(total, Math.max(1, Math.floor(progress * total) + 1));
+            if (hudCounter) {
+              hudCounter.textContent = `0${currentIndex} / 0${total}`;
+            }
+          },
+        },
+      });
+
+      return () => {
+        horizontalTween.kill();
+      };
     });
-    return;
-  }
 
-  // Enable animation styling on document root
-  document.documentElement.classList.add("has-scroll-anim");
+    // MOBILE / TABLET: <= 900px
+    // Natural touch-based horizontal scrolling with CSS scroll snap (No desktop pinning forced!)
+    mm.add("(max-width: 900px)", () => {
+      const scrollWrapper = document.querySelector(".project-horizontal-wrapper");
+      if (scrollWrapper && hudFill && hudCounter) {
+        scrollWrapper.addEventListener("scroll", () => {
+          const maxScroll = scrollWrapper.scrollWidth - scrollWrapper.clientWidth;
+          if (maxScroll <= 0) return;
+          const progress = scrollWrapper.scrollLeft / maxScroll;
+          hudFill.style.width = `${Math.min(100, Math.max(15, progress * 100))}%`;
 
-  // Section Headers & Intros: Fade Up
-  document.querySelectorAll(".section-header, .section-title, .achievements-block .subsection-heading").forEach((el) => {
-    if (!el.classList.contains("reveal-up")) el.classList.add("reveal-up");
-  });
-
-  // Hero Section: Hero Left enters from left, Hero Portrait Card from right
-  const heroLeft = document.querySelector(".hero-left");
-  if (heroLeft && !heroLeft.classList.contains("reveal-left")) {
-    heroLeft.classList.add("reveal-left");
-  }
-
-  const heroRight = document.querySelector(".hero-right");
-  if (heroRight && !heroRight.classList.contains("reveal-right")) {
-    heroRight.classList.add("reveal-right");
-  }
-
-  // About Section: Content from Left, Sidebar from Right
-  const aboutContent = document.querySelector(".about-content");
-  if (aboutContent && !aboutContent.classList.contains("reveal-left")) {
-    aboutContent.classList.add("reveal-left");
-  }
-
-  const aboutSidebar = document.querySelector(".about-sidebar");
-  if (aboutSidebar && !aboutSidebar.classList.contains("reveal-right")) {
-    aboutSidebar.classList.add("reveal-right");
-  }
-
-  // Service Cards: Alternating entrance with stagger
-  document.querySelectorAll(".service-item, .service-card").forEach((el, index) => {
-    const isOdd = index % 2 === 0;
-    const dirClass = isOdd ? "reveal-left" : "reveal-right";
-    if (!el.classList.contains("reveal-left") && !el.classList.contains("reveal-right")) {
-      el.classList.add(dirClass, isOdd ? "delay-1" : "delay-2");
-    }
-  });
-
-  // Stats Counters: Fade up with progressive stagger delays
-  document.querySelectorAll(".stat-card").forEach((el, index) => {
-    if (!el.classList.contains("reveal-up")) {
-      el.classList.add("reveal-up", `delay-${(index % 5) + 1}`);
-    }
-  });
-
-  // Timeline Items: Alternating entrance
-  document.querySelectorAll(".timeline-item").forEach((el, index) => {
-    const isOdd = index % 2 === 0;
-    const dirClass = isOdd ? "reveal-left" : "reveal-right";
-    if (!el.classList.contains("reveal-left") && !el.classList.contains("reveal-right")) {
-      el.classList.add(dirClass, isOdd ? "delay-1" : "delay-2");
-    }
-  });
-
-  // Education & Certifications
-  const eduCard = document.querySelector(".education-card");
-  if (eduCard && !eduCard.classList.contains("reveal-left")) {
-    eduCard.classList.add("reveal-left");
-  }
-
-  const certBox = document.querySelector(".certifications-box");
-  if (certBox && !certBox.classList.contains("reveal-right")) {
-    certBox.classList.add("reveal-right");
-  }
-
-  const expCol = document.querySelector(".exp-column");
-  if (expCol && !expCol.classList.contains("reveal-left")) {
-    expCol.classList.add("reveal-left");
-  }
-
-  const eduCol = document.querySelector(".edu-column");
-  if (eduCol && !eduCol.classList.contains("reveal-right")) {
-    eduCol.classList.add("reveal-right");
-  }
-
-  // Skill Category Cards: Alternating Left / Right entrance
-  document.querySelectorAll(".skill-category-card").forEach((el, index) => {
-    const isOdd = index % 2 === 0;
-    const dirClass = isOdd ? "reveal-left" : "reveal-right";
-    if (!el.classList.contains("reveal-left") && !el.classList.contains("reveal-right")) {
-      el.classList.add(dirClass, isOdd ? "delay-1" : "delay-2");
-    }
-  });
-
-  // Project Cards: Alternating Left / Right entrance with subtle stagger
-  document.querySelectorAll(".project-card").forEach((el, index) => {
-    const isOdd = index % 2 === 0;
-    const dirClass = isOdd ? "reveal-left" : "reveal-right";
-    if (!el.classList.contains("reveal-left") && !el.classList.contains("reveal-right")) {
-      el.classList.add(dirClass, isOdd ? "delay-1" : "delay-2");
-    }
-  });
-
-  // Research Publication Card: Fade up
-  const researchCard = document.querySelector(".research-card");
-  if (researchCard && !researchCard.classList.contains("reveal-up")) {
-    researchCard.classList.add("reveal-up");
-  }
-
-  // Achievement Cards: Fade up with stagger
-  document.querySelectorAll(".achievement-card").forEach((el, index) => {
-    if (!el.classList.contains("reveal-up")) {
-      el.classList.add("reveal-up", `delay-${(index % 4) + 1}`);
-    }
-  });
-
-  // Contact Section: Info from Left, Form from Right
-  const contactLeft = document.querySelector(".contact-left");
-  if (contactLeft && !contactLeft.classList.contains("reveal-left")) {
-    contactLeft.classList.add("reveal-left");
-  }
-
-  const contactRight = document.querySelector(".contact-right");
-  if (contactRight && !contactRight.classList.contains("reveal-right")) {
-    contactRight.classList.add("reveal-right");
-  }
-
-  // Observe all configured elements
-  const allRevealElements = document.querySelectorAll(".reveal-up, .reveal-left, .reveal-right");
-  observeElements(allRevealElements);
-}
-
-function handleAnchorNavigation(targetSelector) {
-  if (!targetSelector || targetSelector === "#") return;
-  try {
-    const target = document.querySelector(targetSelector);
-    if (!target) return;
-
-    if (
-      target.classList.contains("reveal-up") ||
-      target.classList.contains("reveal-left") ||
-      target.classList.contains("reveal-right")
-    ) {
-      target.classList.add("active");
-    }
-
-    target.querySelectorAll(".reveal-up, .reveal-left, .reveal-right").forEach((child) => {
-      child.classList.add("active");
-    });
-  } catch (e) {
-    // Graceful fallback for non-selector hash strings
-  }
-}
-
-function setupAnchorListeners() {
-  // Listen for hashchange events
-  window.addEventListener("hashchange", () => {
-    handleAnchorNavigation(window.location.hash);
-  });
-
-  // If a hash exists on initial load, ensure target is visible
-  if (window.location.hash) {
-    setTimeout(() => {
-      handleAnchorNavigation(window.location.hash);
-    }, 50);
-  }
-
-  // Intercept navigation link clicks to immediately activate target sections
-  document.querySelectorAll('a[href^="#"]').forEach((link) => {
-    link.addEventListener("click", () => {
-      const href = link.getAttribute("href");
-      if (href && href !== "#") {
-        handleAnchorNavigation(href);
+          const total = (portfolioData && portfolioData.projects) ? portfolioData.projects.length : 5;
+          const currentIndex = Math.min(total, Math.max(1, Math.round(progress * (total - 1)) + 1));
+          hudCounter.textContent = `0${currentIndex} / 0${total}`;
+        }, { passive: true });
       }
     });
+
+    // Refresh ScrollTrigger after all assets and fonts finish loading
+    window.addEventListener("load", () => {
+      ScrollTrigger.refresh();
+    });
+
+    // Debounced window resize handler
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 250);
+    });
+  }
+
+  // 3. Header Scroll States & Back-To-Top Button
+  function initHeaderAndFloatingActions() {
+    const header = document.querySelector(".site-header");
+    const backToTopBtn = document.getElementById("backToTopBtn");
+
+    window.addEventListener("scroll", () => {
+      const y = window.scrollY;
+
+      if (header) {
+        if (y > 40) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      }
+
+      if (backToTopBtn) {
+        if (y > 600) {
+          backToTopBtn.classList.add("visible");
+        } else {
+          backToTopBtn.classList.remove("visible");
+        }
+      }
+    }, { passive: true });
+
+    if (backToTopBtn) {
+      backToTopBtn.addEventListener("click", () => {
+        if (lenisInstance) {
+          lenisInstance.scrollTo(0, { duration: 1.2 });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      });
+    }
+
+    // Smooth Anchor Link Handling with Lenis Integration
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", (e) => {
+        const href = anchor.getAttribute("href");
+        if (!href || href === "#") return;
+
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+
+          // Close mobile menu if open
+          const mobileMenu = document.getElementById("navMenu");
+          const menuToggle = document.getElementById("mobileMenuToggle");
+          if (mobileMenu && mobileMenu.classList.contains("open")) {
+            mobileMenu.classList.remove("open");
+            if (menuToggle) menuToggle.classList.remove("active");
+          }
+
+          if (lenisInstance) {
+            lenisInstance.scrollTo(target, { offset: -70 });
+          } else {
+            const top = target.getBoundingClientRect().top + window.scrollY - 70;
+            window.scrollTo({ top, behavior: "smooth" });
+          }
+        }
+      });
+    });
+  }
+
+  // 4. Mobile Menu Toggle
+  function initMobileMenu() {
+    const toggle = document.getElementById("mobileMenuToggle");
+    const menu = document.getElementById("navMenu");
+    if (!toggle || !menu) return;
+
+    toggle.addEventListener("click", () => {
+      const isOpen = menu.classList.contains("open");
+      if (isOpen) {
+        menu.classList.remove("open");
+        toggle.classList.remove("active");
+        toggle.setAttribute("aria-expanded", "false");
+      } else {
+        menu.classList.add("open");
+        toggle.classList.add("active");
+        toggle.setAttribute("aria-expanded", "true");
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener("click", (e) => {
+      if (menu.classList.contains("open") && !menu.contains(e.target) && !toggle.contains(e.target)) {
+        menu.classList.remove("open");
+        toggle.classList.remove("active");
+        toggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  // Initialize all after DOM is ready
+  document.addEventListener("DOMContentLoaded", () => {
+    initLenis();
+    // Allow projects to render into DOM first, then initialize GSAP pin
+    setTimeout(() => {
+      initHorizontalShowcase();
+    }, 100);
+    initHeaderAndFloatingActions();
+    initMobileMenu();
   });
-}
-
-// Global hook for dynamically rendered components (projects, skills)
-window.refreshScrollReveals = function () {
-  assignRevealClasses();
-};
-
-function initAnimations() {
-  assignRevealClasses();
-  setupAnchorListeners();
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initAnimations);
-} else {
-  initAnimations();
-}
+})();

@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Backups & Temporary Working Directories
+backup_v1/
+*.log
+.DS_Store
+Thumbs.db
+
+# Environment & Credentials
+.env
+.env*.local
+*.pem

@@ -1,331 +1,217 @@
-/* ==========================================================
-   PROJECTS.JS — Curated Case Study Rendering, Filtering & Accessible Modal
-   Aligned with Sharanya N's verified resume & GitHub repositories
-========================================================== */
+/**
+ * Projects Renderer & Accessible Specs Modal
+ * Renders verified projects dynamically and manages technical case-study dialogs.
+ */
 
 "use strict";
 
-const modal = document.getElementById("projectModal");
-const modalBody = document.getElementById("modalBody");
-const projectCloseBtn = document.getElementById("modalCloseBtn") || (modal ? modal.querySelector(".close") : null);
-const projectsGrid = document.getElementById("projectsGrid");
+(function () {
+  let previouslyFocusedElement = null;
 
-let activeFilter = "all";
-let lastFocusedTrigger = null;
+  function renderProjects() {
+    const track = document.getElementById("projectHorizontalTrack");
+    if (!track || typeof portfolioData === "undefined" || !portfolioData.projects) return;
 
-function getFilteredProjects(filter) {
-  if (typeof portfolioData === "undefined" || !Array.isArray(portfolioData.projects)) {
-    return [];
-  }
-  if (filter === "web") {
-    return portfolioData.projects.filter((p) => p.category === "web");
-  }
-  if (filter === "ai") {
-    return portfolioData.projects.filter((p) => p.category === "ai");
-  }
-  return portfolioData.projects;
-}
+    track.innerHTML = portfolioData.projects
+      .map((project, index) => {
+        const total = portfolioData.projects.length;
+        const indexStr = `${project.number} // 0${total}`;
 
-function renderProjects(filter = activeFilter) {
-  if (!projectsGrid || typeof portfolioData === "undefined" || !portfolioData.projects) return;
-  activeFilter = filter;
+        // Verified action buttons logic (No placeholders or dead '#' links)
+        const hasLive = project.live && project.live !== project.github && !project.live.includes("github.com");
+        const actionButtonsHtml = `
+          <a href="${escapeHtml(project.github)}" target="_blank" rel="noopener noreferrer" class="btn-card-action primary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            <span>View Source Code</span>
+          </a>
+          ${
+            hasLive
+              ? `<a href="${escapeHtml(project.live)}" target="_blank" rel="noopener noreferrer" class="btn-card-action secondary">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  <span>Live Platform</span>
+                </a>`
+              : ""
+          }
+          <button type="button" class="btn-card-action tertiary btn-open-specs" data-project-id="${escapeHtml(project.id)}" aria-haspopup="dialog">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span>Technical Specs</span>
+          </button>
+        `;
 
-  const list = getFilteredProjects(filter);
+        const techPillsHtml = project.technologies
+          .map((tech) => `<span class="tech-pill">${escapeHtml(tech)}</span>`)
+          .join("");
 
-  projectsGrid.innerHTML = list
-    .map((project) => {
-      const hasLive = Boolean(project.live);
+        return `
+          <article class="project-card" data-index="${index}" aria-label="Project: ${escapeHtml(project.title)}">
+            <div class="card-spec-col">
+              <div>
+                <div class="card-top-meta">
+                  <span class="project-index-badge">${indexStr}</span>
+                  <span class="project-category-tag">${escapeHtml(project.category)}</span>
+                </div>
+                <h3 class="project-card-title">${escapeHtml(project.title)}</h3>
+                <p class="project-card-tagline">${escapeHtml(project.tagline)}</p>
+                <p class="project-card-desc">${escapeHtml(project.shortDescription)}</p>
+                <div class="project-tech-pills" aria-label="Technologies used">
+                  ${techPillsHtml}
+                </div>
+              </div>
+              <div class="card-action-row">
+                ${actionButtonsHtml}
+              </div>
+            </div>
+            <div class="card-screen-col">
+              <div class="card-image-bezel">
+                <img src="${escapeHtml(project.image)}" alt="Interface screenshot of ${escapeHtml(project.title)}" loading="lazy" width="800" height="525" />
+              </div>
+            </div>
+          </article>
+        `;
+      })
+      .join("");
 
-      return `
-<article class="project-card glass-card" data-project-id="${project.id}" data-category="${project.category || "web"}">
-  <div class="project-image">
-    <img src="${project.image}" alt="${project.title} interface preview" width="640" height="360" loading="eager" decoding="async">
-    <div class="project-badges-top">
-      <span class="project-cat-badge">${project.categoryLabel || "Web Application"}</span>
-      ${project.period ? `<span class="project-period-badge">${project.period}</span>` : ""}
-    </div>
-  </div>
-
-  <div class="project-content">
-    <div class="project-header-meta">
-      <h3>${project.title}</h3>
-      ${project.subtitle ? `<p class="project-subtitle">${project.subtitle}</p>` : ""}
-    </div>
-
-    <p class="project-desc-short">${project.shortDescription}</p>
-
-    <div class="project-case-summary">
-      ${
-        project.problem
-          ? `<div class="case-row">
-              <span class="case-label">Problem:</span>
-              <span class="case-val">${project.problem}</span>
-            </div>`
-          : ""
-      }
-      ${
-        project.contribution
-          ? `<div class="case-row">
-              <span class="case-label">Role:</span>
-              <span class="case-val">${project.contribution}</span>
-            </div>`
-          : ""
-      }
-    </div>
-
-    ${
-      project.scopeNote
-        ? `<p class="project-scope-note"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> <span>${project.scopeNote}</span></p>`
-        : ""
-    }
-
-    <div class="project-stack" aria-label="Technologies used">
-      ${project.technologies.map((t) => `<span class="tech-pill">${t}</span>`).join("")}
-    </div>
-
-    <div class="project-links">
-      ${
-        hasLive
-          ? `
-      <a href="${project.live}" target="_blank" rel="noopener noreferrer" class="proj-link-btn proj-live-btn">
-        <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Live Demo
-      </a>
-      <a href="${project.github}" target="_blank" rel="noopener noreferrer" class="proj-link-btn">
-        <i class="fab fa-github" aria-hidden="true"></i> Code
-      </a>`
-          : `
-      <a href="${project.github}" target="_blank" rel="noopener noreferrer" class="proj-link-btn proj-live-btn">
-        <i class="fab fa-github" aria-hidden="true"></i> GitHub Repo
-      </a>`
-      }
-      <button class="proj-link-btn proj-details-btn view-btn" data-project="${project.id}" type="button" aria-haspopup="dialog">
-        <i class="fa-solid fa-file-lines" aria-hidden="true"></i> Case Study
-      </button>
-    </div>
-  </div>
-</article>`;
-    })
-    .join("");
-
-  bindProjectEvents();
-  if (typeof window.refreshScrollReveals === "function") {
-    window.refreshScrollReveals();
-  }
-}
-
-function openProject(id, triggerEl) {
-  const project = portfolioData.projects.find((p) => p.id === id);
-  if (!project || !modal || !modalBody) return;
-
-  lastFocusedTrigger = triggerEl || document.activeElement;
-  const hasLive = Boolean(project.live);
-
-  modalBody.innerHTML = `
-<div class="modal-project">
-  <div class="modal-header-img">
-    <img src="${project.image}" alt="${project.title} full preview" class="modal-img" width="840" height="440" loading="eager">
-  </div>
-
-  <div class="modal-title-bar">
-    <div class="modal-meta-pills">
-      <span class="project-cat-badge">${project.categoryLabel || "Case Study"}</span>
-      ${project.period ? `<span class="modal-time-tag">${project.period}</span>` : ""}
-    </div>
-    <h2 id="modalTitle">${project.title}</h2>
-    ${project.subtitle ? `<p class="modal-subtitle-text">${project.subtitle}</p>` : ""}
-  </div>
-
-  <p class="modal-desc">${project.description}</p>
-
-  <div class="modal-grid-two">
-    ${
-      project.problem
-        ? `
-    <div class="modal-section-half">
-      <h4><i class="fa-solid fa-bullseye" aria-hidden="true"></i> Problem Addressed</h4>
-      <p class="modal-text-dim">${project.problem}</p>
-    </div>`
-        : ""
-    }
-    ${
-      project.contribution
-        ? `
-    <div class="modal-section-half">
-      <h4><i class="fa-solid fa-user-gear" aria-hidden="true"></i> My Role &amp; Contribution</h4>
-      <p class="modal-text-dim">${project.contribution}</p>
-    </div>`
-        : ""
-    }
-  </div>
-
-  <div class="modal-section">
-    <h4><i class="fa-solid fa-list-check" aria-hidden="true"></i> Key Features &amp; Deliverables</h4>
-    <ul class="modal-features">
-      ${project.features.map((f) => `<li><i class="fa-solid fa-check" aria-hidden="true"></i> <span>${f}</span></li>`).join("")}
-    </ul>
-  </div>
-
-  ${
-    project.challenges
-      ? `
-  <div class="modal-grid-two">
-    <div class="modal-section-half">
-      <h4><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Technical Challenge</h4>
-      <p class="modal-text-dim">${project.challenges}</p>
-    </div>
-    <div class="modal-section-half">
-      <h4><i class="fa-solid fa-lightbulb" aria-hidden="true"></i> Engineering Approach</h4>
-      <p class="modal-text-dim">${project.solution}</p>
-    </div>
-  </div>`
-      : ""
+    bindModalTriggers();
   }
 
-  ${
-    project.scopeNote
-      ? `
-  <div class="modal-scope-box">
-    <strong>Implementation Scope:</strong> ${project.scopeNote}
-  </div>`
-      : ""
-  }
-
-  <div class="modal-section">
-    <h4><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Technology Stack</h4>
-    <div class="modal-tech">
-      ${project.technologies.map((t) => `<span class="tech-badge">${t}</span>`).join("")}
-    </div>
-  </div>
-
-  <div class="modal-actions">
-    ${
-      hasLive
-        ? `
-    <a href="${project.live}" target="_blank" rel="noopener noreferrer" class="primary-btn">
-      <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Open Live Demo
-    </a>
-    <a href="${project.github}" target="_blank" rel="noopener noreferrer" class="secondary-btn">
-      <i class="fab fa-github" aria-hidden="true"></i> View Source on GitHub
-    </a>`
-        : `
-    <a href="${project.github}" target="_blank" rel="noopener noreferrer" class="primary-btn">
-      <i class="fab fa-github" aria-hidden="true"></i> View Repository on GitHub
-    </a>`
-    }
-  </div>
-</div>`;
-
-  modal.style.display = "flex";
-  modal.classList.add("is-open");
-  modal.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-
-  if (window.lenisInstance && typeof window.lenisInstance.stop === "function") {
-    window.lenisInstance.stop();
-  }
-
-  const modalContent = modal.querySelector(".modal-content");
-  if (modalContent) modalContent.scrollTop = 0;
-
-  if (projectCloseBtn) {
-    setTimeout(() => projectCloseBtn.focus(), 20);
-  }
-}
-
-function closeProject() {
-  if (!modal) return;
-  modal.style.display = "none";
-  modal.classList.remove("is-open");
-  modal.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-
-  if (window.lenisInstance && typeof window.lenisInstance.start === "function") {
-    window.lenisInstance.start();
-  }
-
-  if (lastFocusedTrigger && typeof lastFocusedTrigger.focus === "function") {
-    lastFocusedTrigger.focus();
-    lastFocusedTrigger = null;
-  }
-}
-
-function bindProjectEvents() {
-  document.querySelectorAll(".view-btn[data-project]").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      openProject(parseInt(btn.dataset.project, 10), btn);
-    });
-  });
-
-  document.querySelectorAll("#projectsGrid .project-image img").forEach((img) => {
-    img.addEventListener("click", () => {
-      const card = img.closest(".project-card");
-      const id = card ? card.dataset.projectId : null;
-      if (id) openProject(parseInt(id, 10), img);
-    });
-  });
-}
-
-function initProjectFilters() {
-  const filterBtns = document.querySelectorAll(".filter-btn[data-filter]");
-  if (!filterBtns.length) return;
-
-  filterBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const filter = btn.dataset.filter || "featured";
-      filterBtns.forEach((b) => {
-        const isCurrent = b === btn;
-        b.classList.toggle("active", isCurrent);
-        b.setAttribute("aria-selected", isCurrent ? "true" : "false");
+  function bindModalTriggers() {
+    const triggers = document.querySelectorAll(".btn-open-specs");
+    triggers.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-project-id");
+        openProjectModal(id, btn);
       });
-      renderProjects(filter);
     });
-  });
-}
-
-if (projectCloseBtn) {
-  projectCloseBtn.addEventListener("click", closeProject);
-}
-
-if (modal) {
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeProject();
-  });
-}
-
-document.addEventListener("keydown", (e) => {
-  if (!modal || modal.getAttribute("aria-hidden") === "true") return;
-
-  if (e.key === "Escape") {
-    e.preventDefault();
-    closeProject();
-    return;
   }
 
-  if (e.key === "Tab") {
-    const focusable = modal.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-    if (!focusable.length) return;
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
+  function openProjectModal(projectId, triggerBtn) {
+    if (typeof portfolioData === "undefined") return;
+    const project = portfolioData.projects.find((p) => String(p.id) === String(projectId));
+    if (!project) return;
 
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
+    previouslyFocusedElement = triggerBtn || document.activeElement;
+
+    const modal = document.getElementById("projectModal");
+    const modalContent = document.getElementById("modalBody");
+    if (!modal || !modalContent) return;
+
+    const featuresList = (project.features || [])
+      .map((f) => `<li>${escapeHtml(f)}</li>`)
+      .join("");
+
+    const techPills = (project.technologies || [])
+      .map((t) => `<span class="tech-pill">${escapeHtml(t)}</span>`)
+      .join("");
+
+    modalContent.innerHTML = `
+      <div class="modal-header">
+        <div class="modal-badge">${escapeHtml(project.category)} // SPEC-${escapeHtml(project.number)}</div>
+        <h2 id="modalDialogTitle" class="modal-title">${escapeHtml(project.title)}</h2>
+        <p class="project-card-tagline" style="margin-top:0.35rem;">${escapeHtml(project.tagline)}</p>
+      </div>
+
+      <div class="modal-section">
+        <h3 class="modal-section-title">System Overview</h3>
+        <p>${escapeHtml(project.description)}</p>
+      </div>
+
+      <div class="modal-section">
+        <h3 class="modal-section-title">Key Architectural Features</h3>
+        <ul>${featuresList}</ul>
+      </div>
+
+      <div class="modal-section">
+        <h3 class="modal-section-title">Engineering Challenge & Solution</h3>
+        <div class="timeline-engagement-callout" style="margin-bottom:0.75rem;">
+          <strong>Challenge:</strong> ${escapeHtml(project.challenges)}
+        </div>
+        <div class="timeline-engagement-callout" style="border-left-color: var(--color-accent-secondary);">
+          <strong>Engineered Solution:</strong> ${escapeHtml(project.solution)}
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <h3 class="modal-section-title">Verified Technology Stack</h3>
+        <div class="project-tech-pills">${techPills}</div>
+      </div>
+
+      <div class="card-action-row" style="margin-top:2rem; padding-top:1.25rem; border-top:1px solid var(--color-border-subtle);">
+        <a href="${escapeHtml(project.github)}" target="_blank" rel="noopener noreferrer" class="btn-card-action primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          <span>Examine Repository</span>
+        </a>
+        <button type="button" class="btn-card-action secondary btn-close-modal">Close Specs</button>
+      </div>
+    `;
+
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+
+    // Setup close listeners
+    const closeBtns = modal.querySelectorAll(".btn-close-modal, .modal-close-btn");
+    closeBtns.forEach((b) => b.addEventListener("click", closeProjectModal));
+
+    // Focus first focusable element inside modal
+    const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (focusable.length > 0) focusable[0].focus();
+  }
+
+  function closeProjectModal() {
+    const modal = document.getElementById("projectModal");
+    if (!modal) return;
+
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+
+    if (previouslyFocusedElement) {
+      previouslyFocusedElement.focus();
+      previouslyFocusedElement = null;
     }
   }
-});
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
-    initProjectFilters();
-    renderProjects("all");
+  // Keyboard navigation & accessibility handlers
+  document.addEventListener("keydown", (e) => {
+    const modal = document.getElementById("projectModal");
+    if (modal && modal.classList.contains("open")) {
+      if (e.key === "Escape") {
+        closeProjectModal();
+      } else if (e.key === "Tab") {
+        // Trap focus inside modal
+        const focusables = Array.from(modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'));
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
   });
-} else {
-  initProjectFilters();
-  renderProjects("all");
-}
+
+  // Close on backdrop click
+  document.addEventListener("click", (e) => {
+    const modal = document.getElementById("projectModal");
+    if (modal && modal.classList.contains("open") && e.target === modal) {
+      closeProjectModal();
+    }
+  });
+
+  function escapeHtml(str) {
+    if (typeof str !== "string") return "";
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  document.addEventListener("DOMContentLoaded", renderProjects);
+})();

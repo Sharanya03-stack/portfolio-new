@@ -1,713 +1,427 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="light dark">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Sharanya N | Computer Science Engineer & UI/UX Designer</title>
+  <meta name="description" content="Engineering portfolio of Sharanya N — Computer Science Engineer and UI/UX Designer specializing in full-stack web systems, AI applications, IoT, and cybersecurity." />
+  <meta name="author" content="Sharanya N" />
+
+  <!-- Open Graph / Meta -->
+  <meta property="og:title" content="Sharanya N | Computer Science Engineer & UI/UX Designer" />
+  <meta property="og:description" content="Engineering portfolio of Sharanya N. Full-stack development, UI/UX systems, and AI engineering." />
+  <meta property="og:image" content="assets/images/profile.jpeg.jpg.jpeg" />
+  <meta property="og:type" content="website" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/images/profile.jpeg.jpg.jpeg" type="image/jpeg" />
+
+  <!-- Zero-FOUC Theme Pre-Initialization (Prevents Theme Flash Before First Paint) -->
   <script>
-    try {
-      var savedScheme = localStorage.getItem("portfolio-theme");
-      var theme = (savedScheme === "dark") ? "dark" : "light";
-      document.documentElement.setAttribute("data-theme", theme);
-      var metaTheme = document.querySelector('meta[name="color-scheme"]');
-      if (metaTheme) metaTheme.content = theme;
-    } catch (e) {}
+    (function () {
+      try {
+        var saved = localStorage.getItem("portfolio-theme");
+        var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.classList.add(theme);
+      } catch (e) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
   </script>
 
-  <title>Sharanya N — Freelance Web &amp; Full-Stack Developer | UI/UX Designer</title>
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
-  <meta name="description"
-    content="Portfolio of Sharanya N — Freelance Web & Full-Stack Developer and UI/UX Designer in Bangalore building responsive business websites, full-stack web apps, dashboards, and AI integrations.">
-  <meta name="keywords"
-    content="Sharanya N, Freelance Web Developer, Full Stack Developer, UI UX Designer, Next.js, React, Python, FastAPI, Bangalore">
-  <meta name="author" content="Sharanya N">
-
-  <meta property="og:title" content="Sharanya N — Freelance Web & Full-Stack Developer">
-  <meta property="og:description"
-    content="I design and build websites that help businesses grow — responsive business sites, full-stack apps, dashboards, and practical AI integrations.">
-  <meta property="og:image" content="assets/images/profile.jpg">
-  <meta property="og:type" content="website">
-
-  <link rel="icon" href="assets/images/profile.jpg">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap"
-    rel="stylesheet">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/animations.css">
-  <link rel="stylesheet" href="css/responsive.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
-<body class="light">
-  <a href="#home" class="skip-link">Skip to main content</a>
+<body>
+  <!-- ==========================================================================
+       SITE HEADER & NAVIGATION
+       ========================================================================== -->
+  <header class="site-header" role="banner">
+    <div class="nav-container">
+      <a href="#home" class="brand-logo" aria-label="Sharanya N - Return to Top">
+        <span class="brand-monogram">SN</span>
+        <span class="brand-name">Sharanya N</span>
+        <span class="brand-status">
+          <span class="status-beacon" aria-hidden="true"></span>
+          <span>Available</span>
+        </span>
+      </a>
 
-  <!-- SCROLL PROGRESS BAR -->
-  <div id="progress-bar" aria-hidden="true"></div>
-
-  <!-- SUBTLE AMBIENT BACKDROP -->
-  <div class="background" aria-hidden="true">
-    <canvas id="ambient-canvas"></canvas>
-    <div class="bg-grid"></div>
-  </div>
-
-  <!-- HEADER / NAVIGATION -->
-  <header id="site-header">
-    <nav class="navbar" aria-label="Primary navigation">
-      <a href="#home" class="logo" aria-label="Sharanya N — Home">Sharanya</a>
-
-      <ul class="nav-links" id="primary-nav">
-        <li><a href="#home" class="active">Home</a></li>
-        <li><a href="#projects">Work</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#research">Research</a></li>
-        <li><a href="#education">Education</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+      <nav class="nav-menu" id="navMenu" aria-label="Main Navigation">
+        <a href="#home" class="nav-link active">Overview</a>
+        <a href="#projects" class="nav-link">Work</a>
+        <a href="#research" class="nav-link">Research</a>
+        <a href="#journey" class="nav-link">Journey</a>
+        <a href="#capabilities" class="nav-link">Capabilities</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
 
       <div class="nav-actions">
-        <button type="button" id="themeToggle" aria-label="Switch color theme" title="Toggle light or dark mode">
-          <i class="fa-solid fa-moon" aria-hidden="true"></i>
+        <!-- Dual Theme Toggle (Tailored Linen × Obsidian Rose & Ochre) -->
+        <button type="button" class="theme-toggle-btn" aria-label="Toggle visual theme" title="Toggle theme">
+          <!-- Icon injected by theme.js -->
         </button>
 
-        <a href="#contact" class="nav-cta-btn">Discuss a Project</a>
+        <a href="assets/resume/resume_3.pdf" download="Sharanya_N_Resume.pdf" class="btn-header-resume">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Resume</span>
+        </a>
 
-        <button type="button" id="menu-btn" aria-label="Toggle navigation menu" aria-expanded="false"
-          aria-controls="primary-nav">
+        <button type="button" class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMenu">
           <span></span>
           <span></span>
           <span></span>
         </button>
       </div>
-    </nav>
+    </div>
   </header>
 
-  <main id="main-content">
-    <!-- =====================================================
-    1. HERO SECTION
-    ===================================================== -->
-    <section id="home" class="hero">
-      <div class="hero-container">
-        <div class="hero-left">
-          <div class="hero-badge">
-            <span class="status-dot" aria-hidden="true"></span>
-            Available for Freelance Projects &bull; Bangalore, India
+  <main id="mainContent">
+    <!-- ==========================================================================
+         HERO SECTION
+         ========================================================================== -->
+    <section id="home" class="hero-section section" aria-label="Introduction">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-pill-badge">
+            <span class="indicator-dot" aria-hidden="true"></span>
+            <span>Computer Science Engineering × Interface Architecture</span>
           </div>
 
-          <h1>
-            I design and build websites that <span>help businesses grow.</span>
+          <h1 class="hero-title">
+            Engineering scalable systems with <span class="title-accent">architectural precision.</span>
           </h1>
 
           <p class="hero-lead">
-            I partner with businesses, founders, and teams to design and build <strong>high-converting websites</strong>,
-            <strong>full-stack web applications</strong>, <strong>interactive dashboards</strong>, and
-            <strong>practical AI integrations</strong>—combining Figma UI/UX clarity with clean, performant code.
+            I'm <strong>Sharanya N</strong>, a Computer Science Engineering student specializing in IoT, Cybersecurity, and UI/UX design. I engineer high-performance web applications, intelligent AI workflows, and bespoke digital products with disciplined code and human-centered design.
           </p>
 
-          <div class="hero-buttons">
-            <a href="#contact" class="primary-btn">
+          <div class="hero-cta-group">
+            <a href="#projects" class="btn-primary">
+              <span>Explore Selected Work</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="#contact" class="btn-secondary">
               <span>Discuss a Project</span>
-              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
             </a>
-
-            <a href="#projects" class="secondary-btn">
-              <span>View My Work</span>
-            </a>
-
-            <a href="assets/resume/resume_3.pdf" download="Sharanya_N_Resume.pdf" class="secondary-btn resume-btn">
-              <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
-              <span>Download Resume</span>
+            <a href="assets/resume/resume_3.pdf" download="Sharanya_N_Resume.pdf" class="btn-secondary" style="font-family:var(--font-mono); font-size:0.875rem;">
+              <span>Download CV</span>
             </a>
           </div>
 
-          <div class="hero-meta-row">
-            <div class="hero-social" aria-label="Social and direct links">
-              <a href="https://github.com/Sharanya03-stack" target="_blank" rel="noopener noreferrer"
-                aria-label="GitHub profile">
-                <i class="fab fa-github" aria-hidden="true"></i>
-              </a>
-              <a href="https://www.linkedin.com/in/sharanya-n-203b7932a" target="_blank" rel="noopener noreferrer"
-                aria-label="LinkedIn profile">
-                <i class="fab fa-linkedin" aria-hidden="true"></i>
-              </a>
-              <a href="mailto:sharureddy13@gmail.com" aria-label="Send email to sharureddy13@gmail.com">
-                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-              </a>
+          <div class="hero-meta-strip">
+            <div class="hero-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Bangalore, India</span>
             </div>
-
-            <div class="hero-quick-facts">
-              <span><i class="fa-solid fa-check" aria-hidden="true"></i> Next.js &amp; React</span>
-              <span><i class="fa-solid fa-check" aria-hidden="true"></i> Python &amp; FastAPI</span>
-              <span><i class="fa-solid fa-check" aria-hidden="true"></i> Figma UI/UX</span>
+            <div class="hero-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>IST (UTC+5:30)</span>
             </div>
           </div>
         </div>
 
-        <div class="hero-right">
-          <div class="profile-card">
-            <div class="profile-circle">
-              <img src="assets/images/profile.jpg" alt="Portrait of Sharanya N" width="340" height="340"
-                fetchpriority="high">
+        <div class="hero-visual">
+          <div class="profile-chassis">
+            <div class="chassis-corner corner-tl" aria-hidden="true"></div>
+            <div class="chassis-corner corner-tr" aria-hidden="true"></div>
+            <div class="chassis-corner corner-bl" aria-hidden="true"></div>
+            <div class="chassis-corner corner-br" aria-hidden="true"></div>
+
+            <div class="profile-image-frame">
+              <img src="assets/images/profile.jpeg.jpg.jpeg" alt="Sharanya N — Computer Science Engineer & UI/UX Designer" width="420" height="495" fetchpriority="high" />
             </div>
 
-            <div class="profile-caption">
-              <div class="profile-caption-title">
-                <strong>Sharanya N</strong>
-                <span>Freelance Web Developer &amp; UI/UX Designer</span>
-              </div>
-              <ul class="profile-highlights" aria-label="Verified credentials">
-                <li><i class="fa-solid fa-trophy" aria-hidden="true"></i> IBM AI Hackathon Winner</li>
-                <li><i class="fa-solid fa-briefcase" aria-hidden="true"></i> UI/UX Intern @ Edufyi Tech</li>
-                <li><i class="fa-solid fa-file-lines" aria-hidden="true"></i> National Conference Presenter</li>
-              </ul>
+            <div class="profile-caption-strip">
+              <span class="profile-badge-tag">ENGINEER & DESIGNER</span>
+              <span>B.E. CSE (2024–2028)</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- =====================================================
-    2. FEATURED PROJECTS SECTION
-    ===================================================== -->
-    <section id="projects" class="projects section">
-      <div class="section-header">
-        <div class="section-title-group">
-          <p class="section-eyebrow">SELECTED WORK</p>
-          <h2>Featured Projects &amp; Case Studies</h2>
-          <p class="section-subtitle">
-            Real client-ready web applications, business websites, and cybersecurity tooling with verified live deployments and public source code.
-          </p>
-        </div>
-
-        <div class="project-filter-bar" role="group" aria-label="Filter projects">
-          <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">
-            All Projects (5)
-          </button>
-          <button type="button" class="filter-btn" data-filter="web" aria-pressed="false">
-            Web &amp; Full-Stack (4)
-          </button>
-          <button type="button" class="filter-btn" data-filter="ai" aria-pressed="false">
-            AI &amp; Security (1)
-          </button>
-        </div>
-      </div>
-
-      <div class="projects-grid" id="projectsGrid"></div>
-
-      <!-- Accessible Project Detail Modal -->
-      <div id="projectModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"
-        aria-hidden="true">
-        <div class="modal-content" data-lenis-prevent tabindex="-1">
-          <button type="button" id="modalCloseBtn" class="close" aria-label="Close project details">&times;</button>
-          <div id="modalBody"></div>
+    <!-- ==========================================================================
+         METRICS & CREDIBILITY RIBBON
+         ========================================================================== -->
+    <section class="metrics-ribbon" aria-label="Verified Impact Metrics">
+      <div class="container">
+        <div class="metrics-grid" id="metricsGrid">
+          <!-- Rendered dynamically by js/skills.js -->
         </div>
       </div>
     </section>
 
-    <!-- =====================================================
-    3. SERVICES I OFFER SECTION
-    ===================================================== -->
-    <section id="services" class="services section">
-      <div class="section-title">
-        <p class="section-eyebrow">SERVICES I OFFER</p>
-        <h2>How I Help Businesses &amp; Founders</h2>
-        <p>
-          From initial concept and Figma wireframes to responsive frontend, backend APIs, and production deployment.
+    <!-- ==========================================================================
+         SELECTED ENGINEERING WORK — GSAP PINNED HORIZONTAL SHOWCASE
+         ========================================================================== -->
+    <section id="projects" class="project-showcase-pin" aria-label="Selected Engineering Work">
+      <div class="container showcase-header-sticky">
+        <div class="showcase-header-content">
+          <div>
+            <div class="section-label">Selected Work</div>
+            <h2 class="section-title">Engineered Products</h2>
+            <p class="section-desc">
+              Full-stack applications, intelligent AI assistants, and high-performance interfaces engineered for real-world reliability.
+            </p>
+          </div>
+
+          <!-- Progress HUD -->
+          <div class="project-hud" aria-live="polite">
+            <span class="hud-counter" id="hudCounter">01 / 05</span>
+            <div class="hud-progress-track">
+              <div class="hud-progress-fill" id="hudProgressFill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Horizontal Sliding Track Container -->
+      <div class="project-horizontal-wrapper">
+        <div class="project-horizontal-track" id="projectHorizontalTrack">
+          <!-- 5 Expansive Project Cards Rendered Dynamically by js/projects.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         ACADEMIC RESEARCH SPOTLIGHT
+         ========================================================================== -->
+    <section id="research" class="section" aria-label="Academic Research">
+      <div class="container">
+        <div class="section-label">Academic Contribution</div>
+        <h2 class="section-title">Original Research</h2>
+        <p class="section-desc" style="margin-bottom:2.5rem;">
+          Academic inquiry examining the computational modeling of algorithmic distribution and digital virality dynamics.
         </p>
-      </div>
 
-      <div class="services-full-grid">
-        <article class="service-card glass-card">
-          <div class="service-icon" aria-hidden="true"><i class="fa-solid fa-display"></i></div>
-          <div class="service-body">
-            <h3>Business Websites &amp; Landing Pages</h3>
-            <p>
-              Fast, mobile-first websites with clean typography, clear information architecture, and lead capture workflows that build client credibility and drive inquiries.
-            </p>
-            <ul class="service-deliverables">
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Responsive Multi-Page Sites</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Interactive Digital Menus &amp; Catalogs</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Lead Capture &amp; Booking Forms</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> SEO &amp; Speed Optimization</li>
-            </ul>
-            <a href="#contact" class="service-cta">Discuss this service &rarr;</a>
-          </div>
-        </article>
-
-        <article class="service-card glass-card">
-          <div class="service-icon" aria-hidden="true"><i class="fa-solid fa-layer-group"></i></div>
-          <div class="service-body">
-            <h3>Full-Stack Web Applications</h3>
-            <p>
-              Custom web applications engineered with Next.js, React, and FastAPI, featuring multi-criteria search, dynamic state management, and reliable API integrations.
-            </p>
-            <ul class="service-deliverables">
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Product Discovery &amp; Filterable Catalogs</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Interactive Shopping Carts &amp; State</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> RESTful API Architecture</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Relational Database Integration</li>
-            </ul>
-            <a href="#contact" class="service-cta">Discuss this service &rarr;</a>
-          </div>
-        </article>
-
-        <article class="service-card glass-card">
-          <div class="service-icon" aria-hidden="true"><i class="fa-solid fa-chart-line"></i></div>
-          <div class="service-body">
-            <h3>Dashboards &amp; Admin Panels</h3>
-            <p>
-              Data-focused administrative dashboards and telemetry consoles that organize complex datasets into intuitive charts, real-time metrics, and manageable workflows.
-            </p>
-            <ul class="service-deliverables">
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Operational Metric Cards &amp; KPIs</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Interactive Charting (Recharts)</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Real-Time Activity &amp; Audit Logs</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Clean Data Tables with Filters</li>
-            </ul>
-            <a href="#contact" class="service-cta">Discuss this service &rarr;</a>
-          </div>
-        </article>
-
-        <article class="service-card glass-card">
-          <div class="service-icon" aria-hidden="true"><i class="fa-solid fa-pen-ruler"></i></div>
-          <div class="service-body">
-            <h3>UI/UX Design &amp; Prototyping</h3>
-            <p>
-              User-centered design systems, structured wireframes, and interactive Figma prototypes that validate application flows and layout before writing code.
-            </p>
-            <ul class="service-deliverables">
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Figma Wireframes &amp; User Flows</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Scalable Component Design Systems</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Interactive Clickable Prototypes</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Usability &amp; Mobile Layout Audits</li>
-            </ul>
-            <a href="#contact" class="service-cta">Discuss this service &rarr;</a>
-          </div>
-        </article>
-
-        <article class="service-card glass-card">
-          <div class="service-icon" aria-hidden="true"><i class="fa-solid fa-brain"></i></div>
-          <div class="service-body">
-            <h3>Practical AI &amp; API Integrations</h3>
-            <p>
-              Purposeful integrations of machine learning models, telemetry classification, and third-party APIs that solve real domain problems without unnecessary complexity.
-            </p>
-            <ul class="service-deliverables">
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Scikit-learn / ML Pipelines</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Anomaly Detection Telemetry</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Third-Party REST Integrations</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> FastAPI Microservice Endpoints</li>
-            </ul>
-            <a href="#contact" class="service-cta">Discuss this service &rarr;</a>
-          </div>
-        </article>
-      </div>
-
-      <!-- VERIFIED METRICS -->
-      <div class="stats-container" aria-label="Verified portfolio summary metrics">
-        <div class="stat-card">
-          <h3 class="counter" data-target="5">5</h3>
-          <p>Public Projects Built</p>
-        </div>
-
-        <div class="stat-card">
-          <h3 class="counter" data-target="5">5</h3>
-          <p>Live Deployed Demos</p>
-        </div>
-
-        <div class="stat-card">
-          <h3 class="counter" data-target="1">1</h3>
-          <p>Industry UI/UX Internship</p>
-        </div>
-
-        <div class="stat-card">
-          <h3 class="counter" data-target="1">1</h3>
-          <p>Conference Research Paper</p>
-        </div>
-
-        <div class="stat-card">
-          <h3 class="counter" data-target="5">5</h3>
-          <p>Industry Certifications</p>
+        <div id="researchSpotlight">
+          <!-- Rendered dynamically by js/skills.js -->
         </div>
       </div>
     </section>
 
-    <!-- =====================================================
-    4. FREELANCE & DEVELOPMENT EXPERIENCE
-    ===================================================== -->
-    <section id="experience" class="experience section">
-      <div class="section-title">
-        <p class="section-eyebrow">PROFESSIONAL BACKGROUND</p>
-        <h2>Freelance &amp; Development Experience</h2>
-        <p>Direct client engagements, industry internship experience, and end-to-end project deliveries.</p>
-      </div>
-
-      <div class="experience-timeline">
-        <article class="timeline-item">
-          <div class="timeline-dot" aria-hidden="true"></div>
-          <div class="timeline-content glass-card">
-            <div class="timeline-header-row">
-              <div>
-                <span class="timeline-period">2025 – Present</span>
-                <h4>Freelance Web Developer &amp; UI/UX Designer</h4>
-                <h5>Independent Practice &bull; Bangalore, India &amp; Remote</h5>
-              </div>
-            </div>
-            <p>
-              I work directly with business owners, founders, and student initiatives to deliver custom websites, full-stack applications, and interactive dashboards from initial concept to production deployment.
-            </p>
-            <ul class="timeline-bullets">
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Delivered full-stack applications and business websites including <strong>NexBasket</strong> (e-commerce), <strong>House Hunt</strong> (real estate catalog), and <strong>Zero Degree Cafe &amp; Brewery</strong> (hospitality web presence).</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Engineered responsive, accessible component systems in <strong>Next.js, React, TypeScript</strong>, and <strong>Tailwind CSS</strong> with fast load speeds and mobile-first navigation.</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Integrated Python/FastAPI backend APIs and telemetry services for data-driven applications like <strong>Spy-fi</strong>.</li>
-            </ul>
-            <div class="timeline-tags" aria-label="Skills applied in freelance practice">
-              <span>Next.js</span>
-              <span>React</span>
-              <span>TypeScript</span>
-              <span>Python / FastAPI</span>
-              <span>Figma</span>
-              <span>Tailwind CSS</span>
-              <span>Client Delivery</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="timeline-item">
-          <div class="timeline-dot" aria-hidden="true"></div>
-          <div class="timeline-content glass-card">
-            <div class="timeline-header-row">
-              <div>
-                <span class="timeline-period">Aug 2025 – Oct 2025</span>
-                <h4>UI/UX Design Intern</h4>
-                <h5>Edufyi Tech Solutions &bull; Bangalore, India</h5>
-              </div>
-            </div>
-            <p>
-              Designed intuitive user interfaces for web and mobile products. Built structured wireframes, component design systems, and interactive Figma prototypes that clarified navigation hierarchy and improved user task completion.
-            </p>
-            <ul class="timeline-bullets">
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Created user flows, journey maps, and high-fidelity screen mockups aligned with product requirements.</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Maintained component design libraries for consistent cross-device UI implementation.</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> Collaborated with developers and project leads during sprint design reviews.</li>
-            </ul>
-            <div class="timeline-tags" aria-label="Skills used in internship">
-              <span>Figma</span>
-              <span>UI/UX Design</span>
-              <span>Component Systems</span>
-              <span>Wireframing</span>
-              <span>Interactive Prototyping</span>
-              <span>Usability Testing</span>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- =====================================================
-    5. TECHNICAL SKILLS SECTION
-    ===================================================== -->
-    <section id="skills" class="skills section">
-      <div class="section-title">
-        <p class="section-eyebrow">CORE CAPABILITIES</p>
-        <h2>Technical Skills &amp; Tooling</h2>
-        <p>
-          Organized by client value—clearly demonstrating technologies used across my shipped case studies.
+    <!-- ==========================================================================
+         PROFESSIONAL JOURNEY & ACADEMIC FOUNDATIONS
+         ========================================================================== -->
+    <section id="journey" class="section" aria-label="Experience and Academics">
+      <div class="container">
+        <div class="section-label">Trajectory</div>
+        <h2 class="section-title">Experience & Academics</h2>
+        <p class="section-desc" style="margin-bottom:3rem;">
+          Bridging real-world client engineering engagements with rigorous computer science foundational studies.
         </p>
-      </div>
 
-      <div class="skills-grid" id="skillsGrid"></div>
-    </section>
-
-    <!-- =====================================================
-    6. RESEARCH PUBLICATION SECTION
-    ===================================================== -->
-    <section id="research" class="research section">
-      <div class="section-title">
-        <p class="section-eyebrow">RESEARCH &amp; HONORS</p>
-        <h2>Research Publication</h2>
-        <p>Academic mathematical modeling and network dynamics research presented at a national conference.</p>
-      </div>
-
-      <article class="research-card glass-card">
-        <div class="research-icon" aria-hidden="true">
-          <i class="fa-solid fa-square-root-variable"></i>
-        </div>
-
-        <div class="research-content">
-          <div class="research-meta-badge">
-            <i class="fa-solid fa-award" aria-hidden="true"></i> Presented at National-Level Conference
+        <div class="journey-grid">
+          <!-- Left Column: Professional & Freelance Practice -->
+          <div class="timeline-column" id="journeyTimeline">
+            <!-- Rendered dynamically by js/skills.js -->
           </div>
 
-          <h3>The Meme Equation: Simulating Virality in the Age of Algorithms</h3>
+          <!-- Right Column: Academic Foundations -->
+          <div>
+            <article class="academic-card">
+              <span class="academic-degree-badge">UNDERGRADUATE FOUNDATION</span>
+              <h3 class="academic-institution">Sri Sairam College of Engineering, Bangalore</h3>
+              <div class="academic-degree">Bachelor of Engineering (B.E.)</div>
+              <div class="academic-spec">Computer Science Engineering (IoT, Cybersecurity including Blockchain) &bull; 2024 – 2028</div>
 
-          <p class="research-authors">
-            <strong>Authors:</strong> Sharanya N, Arya Sham Pandit, Khan saif S &bull; <em>Department of Science and Humanities, Sri Sairam College of Engineering, Bangalore</em>
-          </p>
-
-          <p class="research-summary">
-            Investigates information diffusion and short-lifecycle viral content across social media platforms. Adapts the epidemiological <strong>SIR (Susceptible–Infected–Recovered)</strong> differential equation model to treat network users as interconnected nodes, evaluating sharing velocity (<var>&beta;</var>) against attention decay (<var>&gamma;</var>) across a 10,000-node simulated community to understand algorithmic reach, influencer amplification, and content decay.
-          </p>
-
-          <div class="research-tags">
-            <span>SIR Differential Equations</span>
-            <span>Network Dynamics</span>
-            <span>Information Diffusion</span>
-            <span>10,000-Node Simulation</span>
-            <span>Algorithmic Virality</span>
-          </div>
-
-          <div class="research-actions">
-            <a href="assets/research/The_Meme_Equation_Simulating_Virality.pdf" class="primary-btn" target="_blank"
-              rel="noopener">
-              <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
-              <span>Read Research Paper (PDF)</span>
-            </a>
-
-            <a href="assets/research/The_Meme_Equation_Simulating_Virality.pdf" download="The_Meme_Equation_Simulating_Virality.pdf" class="secondary-btn">
-              <i class="fa-solid fa-download" aria-hidden="true"></i>
-              <span>Download PDF</span>
-            </a>
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <!-- =====================================================
-    7. EDUCATION & CERTIFICATIONS SECTION
-    ===================================================== -->
-    <section id="education" class="education section">
-      <div class="section-title">
-        <p class="section-eyebrow">ACADEMIC &amp; CREDENTIALS</p>
-        <h2>Education &amp; Certifications</h2>
-        <p>Engineering degree, verified technical credentials, and competition achievements.</p>
-      </div>
-
-      <div class="edu-cert-grid">
-        <article class="education-card glass-card">
-          <div class="education-icon" aria-hidden="true">
-            <i class="fa-solid fa-graduation-cap"></i>
-          </div>
-          <div class="education-content">
-            <span class="timeline-period">2024 – 2028</span>
-            <h4>Bachelor of Engineering (B.E.) in Computer Science Engineering</h4>
-            <h5>Sri Sairam College of Engineering, Bangalore</h5>
-            <p class="education-spec">
-              Specialization: CSE (IoT, Cybersecurity including Blockchain)
-            </p>
-            <p class="education-desc">
-              Strong academic foundation in Data Structures, Object-Oriented Programming, Database Management Systems, Computer Networks, and Secure Systems.
-            </p>
-          </div>
-        </article>
-
-        <div class="certifications-box glass-card">
-          <h4><i class="fa-solid fa-certificate" aria-hidden="true"></i> Verified Certifications &amp; Training</h4>
-          <ul class="cert-list">
-            <li><strong>IBM SkillsBuild:</strong> Generative AI Fundamentals</li>
-            <li><strong>IBM SkillsBuild:</strong> Artificial Intelligence Fundamentals</li>
-            <li><strong>IBM SkillsBuild:</strong> Prompt Engineering</li>
-            <li><strong>NPTEL:</strong> Cloud Computing (Elite Certificate)</li>
-            <li><strong>COMEDKARES:</strong> Technical Innovation &amp; Prototyping Workshop</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- ACHIEVEMENTS SUB-SECTION -->
-      <div id="achievements" class="achievements-block">
-        <h3 class="subsection-heading">Recognition &amp; Verified Honors</h3>
-        <div class="achievement-grid">
-          <div class="achievement-card glass-card">
-            <i class="fa-solid fa-trophy" aria-hidden="true"></i>
-            <h4>IBM AI Hackathon Winner</h4>
-            <p>Awarded first place for designing and building an applied AI prototype solving real workflow challenges.</p>
-          </div>
-
-          <div class="achievement-card glass-card">
-            <i class="fa-solid fa-microphone-lines" aria-hidden="true"></i>
-            <h4>National Conference Presenter</h4>
-            <p>Selected to present mathematical modeling research on social media virality and information diffusion.</p>
-          </div>
-
-          <div class="achievement-card glass-card">
-            <i class="fa-solid fa-award" aria-hidden="true"></i>
-            <h4>Academic Merit Recognition</h4>
-            <p>Recipient of merit-based academic scholarship and 'A' Grade Certificate in Advanced C Programming.</p>
-          </div>
-
-          <div class="achievement-card glass-card">
-            <i class="fa-solid fa-medal" aria-hidden="true"></i>
-            <h4>Browser Battle Finalist</h4>
-            <p>Built the multi-department Apex University portal under competitive web engineering criteria.</p>
+              <div class="academic-highlights" id="academicHighlights">
+                <!-- Rendered dynamically by js/skills.js -->
+              </div>
+            </article>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- =====================================================
-    8. CONTACT SECTION
-    ===================================================== -->
-    <section id="contact" class="contact section">
-      <div class="section-title">
-        <p class="section-eyebrow">START A PROJECT</p>
-        <h2>Have a project in mind? Let's build it.</h2>
-        <p>
-          Whether you need a responsive business website, a custom full-stack web application, or UI/UX design support,
-          reach out directly by email or submit your project details below.
+    <!-- ==========================================================================
+         TECHNICAL COMPETENCIES MATRIX
+         ========================================================================== -->
+    <section id="capabilities" class="section" aria-label="Technical Capabilities">
+      <div class="container">
+        <div class="section-label">Capabilities</div>
+        <h2 class="section-title">Technical Matrix</h2>
+        <p class="section-desc" style="margin-bottom:3rem;">
+          Systematic competencies organized across programming languages, interface architecture, cloud infrastructure, and product design.
         </p>
-      </div>
 
-      <div class="contact-container">
-        <div class="contact-left glass-card">
-          <div class="contact-profile-header">
-            <img src="assets/images/profile.jpg" alt="Sharanya N" width="96" height="96">
-            <div>
-              <h3>Sharanya N</h3>
-              <p>Freelance Web Developer &amp; UI/UX Designer</p>
-            </div>
-          </div>
-
-          <div class="contact-info">
-            <div class="contact-info-item">
-              <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-              <div>
-                <span>Direct Email</span>
-                <a href="mailto:sharureddy13@gmail.com">sharureddy13@gmail.com</a>
-              </div>
-            </div>
-
-            <div class="contact-info-item">
-              <i class="fa-solid fa-phone" aria-hidden="true"></i>
-              <div>
-                <span>Phone / WhatsApp</span>
-                <a href="tel:+916362813866">+91-6362813866</a>
-              </div>
-            </div>
-
-            <div class="contact-info-item">
-              <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-              <div>
-                <span>Location</span>
-                <p>Bangalore, Karnataka, India</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="client-brief-guide">
-            <h4>What to include in your inquiry:</h4>
-            <ul>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> <strong>Project type:</strong> Business website,
-                e-commerce/catalog, dashboard, or UI/UX prototype</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> <strong>Key requirements:</strong> Core pages,
-                features, or integrations needed</li>
-              <li><i class="fa-solid fa-check" aria-hidden="true"></i> <strong>Timeline:</strong> Target launch window
-                or milestone schedule</li>
-            </ul>
-          </div>
-
-          <div class="social-links" aria-label="Connect on social platforms">
-            <a href="https://www.linkedin.com/in/sharanya-n-203b7932a" target="_blank" rel="noopener noreferrer"
-              aria-label="LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
-            <a href="https://github.com/Sharanya03-stack" target="_blank" rel="noopener noreferrer"
-              aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
-            <a href="mailto:sharureddy13@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"
-                aria-hidden="true"></i></a>
-          </div>
+        <div class="skills-matrix-grid" id="skillsMatrixGrid">
+          <!-- Rendered dynamically by js/skills.js -->
         </div>
+      </div>
+    </section>
 
-        <div class="contact-right glass-card">
-          <form id="contactForm" action="https://formsubmit.co/ajax/sharureddy13@gmail.com" method="POST" novalidate>
-            <input type="hidden" name="_subject" value="Portfolio Project Inquiry — Sharanya N">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
+    <!-- ==========================================================================
+         HONORS & ACCOLADES
+         ========================================================================== -->
+    <section class="section" aria-label="Honors and Accolades">
+      <div class="container">
+        <div class="section-label">Validation</div>
+        <h2 class="section-title">Honors & Credentials</h2>
+        <p class="section-desc" style="margin-bottom:3rem;">
+          Industry-recognized competition victories, academic presentations, and professional certifications.
+        </p>
 
-            <div class="form-row-two">
+        <div class="achievements-grid" id="achievementsGrid">
+          <!-- Rendered dynamically by js/skills.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         COMMUNICATION TERMINAL & CONTACT
+         ========================================================================== -->
+    <section id="contact" class="section" aria-label="Contact and Collaboration">
+      <div class="container">
+        <div class="section-label">Communication</div>
+        <h2 class="section-title">Initiate a Collaboration</h2>
+        <p class="section-desc" style="margin-bottom:3rem;">
+          Have a software project, freelance engineering requirement, or technical role? Reach out via verified channels or direct transmission.
+        </p>
+
+        <div class="contact-layout">
+          <!-- Left Column: Verified Nodes -->
+          <div class="contact-nodes-pane" id="contactNodes">
+            <!-- Rendered dynamically by js/skills.js -->
+          </div>
+
+          <!-- Right Column: Functional Inquiry Form -->
+          <div class="contact-form-pane">
+            <h3 style="font-size:1.375rem; margin-bottom:0.5rem;">Direct Project Inquiry</h3>
+            <p style="font-size:0.875rem; color:var(--color-text-secondary); margin-bottom:1.5rem;">
+              Fill out your requirements below. Submissions launch your native email client directly with prefilled parameters.
+            </p>
+
+            <form id="contactForm" novalidate>
               <div class="form-group">
-                <label for="senderName">Your Name <span class="req-star" aria-hidden="true">*</span></label>
-                <input type="text" name="name" id="senderName" placeholder="e.g. Rahul Sharma" required
-                  autocomplete="name">
+                <label for="contactName" class="form-label">Full Name *</label>
+                <input type="text" id="contactName" class="form-input" placeholder="e.g. Alex Henderson" required />
               </div>
 
               <div class="form-group">
-                <label for="senderEmail">Email Address <span class="req-star" aria-hidden="true">*</span></label>
-                <input type="email" name="email" id="senderEmail" placeholder="name@company.com" required
-                  autocomplete="email">
+                <label for="contactEmail" class="form-label">Email Address *</label>
+                <input type="email" id="contactEmail" class="form-input" placeholder="e.g. alex@company.com" required />
               </div>
-            </div>
 
-            <div class="form-group">
-              <label for="messageSubject">Project Type / Subject <span class="req-star"
-                  aria-hidden="true">*</span></label>
-              <input type="text" name="subject" id="messageSubject"
-                placeholder="e.g. Business Website / Full-Stack Web App / Internship" required>
-            </div>
+              <div class="form-group">
+                <label for="contactSubject" class="form-label">Subject</label>
+                <input type="text" id="contactSubject" class="form-input" placeholder="e.g. Full-Stack Web Development / UI Design" />
+              </div>
 
-            <div class="form-group">
-              <label for="messageBody">Project Details &amp; Timeline <span class="req-star"
-                  aria-hidden="true">*</span></label>
-              <textarea name="message" id="messageBody" rows="5"
-                placeholder="Tell me about the problem you are solving, key features needed, and your target timeline..."
-                required></textarea>
-            </div>
+              <div class="form-group">
+                <label for="contactMessage" class="form-label">Project Details / Message *</label>
+                <textarea id="contactMessage" class="form-textarea" rows="4" placeholder="Briefly describe your objectives, timeline, or scope..." required></textarea>
+              </div>
 
-            <button type="submit" id="submitBtn" class="primary-btn">
-              <span class="btn-text">Send Inquiry</span>
-              <i class="fa-solid fa-paper-plane btn-icon" aria-hidden="true"></i>
-            </button>
+              <button type="submit" class="btn-primary" style="width:100%; justify-content:center;">
+                <span>Send Direct Inquiry</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
 
-            <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
-          </form>
+              <div id="formToast" class="form-toast" role="status" aria-live="polite"></div>
+
+              <p class="form-notice">
+                🔒 Direct delivery to <strong>sharureddy13@gmail.com</strong>. No unsolicited commercial marketing or data resale.
+              </p>
+            </form>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- =====================================================
-  FOOTER
-  ===================================================== -->
-  <footer>
-    <div class="footer-container">
-      <div class="footer-brand">
-        <h2>Sharanya N</h2>
-        <p>Freelance Web &amp; Full-Stack Developer &bull; Bangalore, India</p>
+  <!-- ==========================================================================
+       ACCESSIBLE TECHNICAL SPECS MODAL
+       ========================================================================== -->
+  <div id="projectModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalDialogTitle">
+    <div class="modal-dialog">
+      <button type="button" class="modal-close-btn" aria-label="Close specifications dialog">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div id="modalBody">
+        <!-- Injected dynamically by js/projects.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FLOATING ACTIONS DOCK (WHATSAPP + BACK TO TOP)
+       ========================================================================== -->
+  <div class="floating-actions-dock" role="complementary" aria-label="Quick Actions">
+    <!-- Back to Top Button -->
+    <button type="button" class="floating-top-btn" id="backToTopBtn" aria-label="Return to top of page" title="Back to top">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+    </button>
+
+    <!-- Persistent Floating WhatsApp Contact Button -->
+    <a href="https://wa.me/916362813866?text=Hi%20Sharanya%2C%20I%20came%20across%20your%20portfolio%20and%20would%20like%20to%20connect%20regarding%20a%20project." target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" aria-label="Initiate direct conversation on WhatsApp" title="Chat on WhatsApp">
+      <span class="whatsapp-tooltip">Chat on WhatsApp</span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+    </a>
+  </div>
+
+  <!-- ==========================================================================
+       ARCHITECTURAL FOOTER
+       ========================================================================== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-top">
+        <a href="#home" class="brand-logo" aria-label="Sharanya N">
+          <span class="brand-monogram">SN</span>
+          <span class="brand-name">Sharanya N</span>
+        </a>
+
+        <div class="footer-nav">
+          <a href="#home">Overview</a>
+          <a href="#projects">Work</a>
+          <a href="#research">Research</a>
+          <a href="#journey">Journey</a>
+          <a href="#capabilities">Capabilities</a>
+          <a href="#contact">Contact</a>
+        </div>
+
+        <div class="footer-social-row">
+          <a href="https://github.com/Sharanya03-stack" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="GitHub Profile">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/sharanya-n-203b7932a" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="LinkedIn Profile">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="mailto:sharureddy13@gmail.com" class="footer-social-btn" aria-label="Direct Email">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+        </div>
       </div>
 
-      <div class="footer-social" aria-label="Footer social links">
-        <a href="https://github.com/Sharanya03-stack" target="_blank" rel="noopener noreferrer"
-          aria-label="GitHub profile"><i class="fab fa-github" aria-hidden="true"></i></a>
-        <a href="https://www.linkedin.com/in/sharanya-n-203b7932a" target="_blank" rel="noopener noreferrer"
-          aria-label="LinkedIn profile"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
-        <a href="mailto:sharureddy13@gmail.com" aria-label="Email Sharanya N"><i class="fa-solid fa-envelope"
-            aria-hidden="true"></i></a>
+      <div class="footer-bottom">
+        <div>&copy; <span id="year">2026</span> Sharanya N. All rights reserved. Handcrafted with architectural discipline.</div>
+        <div>Tailored Linen &bull; Obsidian Rose & Ochre</div>
       </div>
-
-      <p class="footer-copy">
-        &copy; <span id="year">2026</span> Sharanya N. All Rights Reserved.
-      </p>
     </div>
   </footer>
 
-  <!-- BACK TO TOP -->
-  <button type="button" id="backToTop" aria-label="Scroll back to top" title="Back to top">
-    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
-  </button>
-
-  <!-- SCRIPTS -->
+  <!-- ==========================================================================
+       SCRIPTS (LENIS + GSAP + SCROLLTRIGGER + APPLICATION MODULES)
+       ========================================================================== -->
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-  <script src="js/ambient.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/theme.js"></script>
-  <script src="js/animations.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/skills.js"></script>
-  <script src="js/projects.js"></script>
-</body>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
+  <!-- Application Modules -->
+  <script src="js/data.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/projects.js"></script>
+  <script src="js/skills.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/main.js"></script>
+</body>
 </html>
